@@ -1,12 +1,13 @@
-import './App.css';
-import Record from './components/Record';
-import Response from './components/Response';
+import "./App.css";
+import Response from "./components/Response";
+import CookData from "./components/CookData";
 
 function App() {
+
   return (
     <div className="App">
-      <Record />
-      <Response />
+      {/* <Response /> */}
+      <CookData />
     </div>
   );
 }
