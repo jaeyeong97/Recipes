@@ -10,7 +10,7 @@ const CookData = () => {
         const keyId = "d94323bfaec344a59d3d";
         const serviceId = "COOKRCP01";
         const response = await axios.get(
-          `http://openapi.foodsafetykorea.go.kr/api/${keyId}/${serviceId}/json/1/20`
+          `/api/${keyId}/${serviceId}/json/1/20`
         );
         if (response.data.row && response.data.row.length > 0) {
           setRecipes(response.data);
