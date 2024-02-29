@@ -1,43 +1,39 @@
+// CookData.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Item from "../pages/Item";
 
-const CookData = () => {
-  const [recipes, setRecipes] = useState([]);
+const CookData = ({ message }) => {
+  const [recipes, setRecipes] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const keyId = "d94323bfaec344a59d3d";
-        const serviceId = "COOKRCP01";
         const response = await axios.get(
-          `/api/${keyId}/${serviceId}/json/1/20`
+          `/api/d94323bfaec344a59d3d/COOKRCP01/json/1/10`
         );
-        if (response.data.row && response.data.row.length > 0) {
-          setRecipes(response.data);
-        } else {
-          console.log(" no data!");
-        }
+        setRecipes(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error.message);
+        console.error("api 호출 오류:", error.message);
       }
     };
-
     fetchData();
   }, []);
 
+  if (recipes === null) {
+    return <p>loading</p>;
+  }
+  if (message === "계란") {
+    console.log('잘된다')
+  }
   return (
     <div className="cook_data">
-      {Array.isArray(recipes.row) && recipes.row.length > 0 ? (
-        recipes.row.map((it) => (
-          <div className="lists" key={it.RCP_SEQ}>
-            <p>조리 방법: {it.RCP_WAY2}</p>
-            <p>요리 종류: {it.RCP_PAT2}</p>
-          </div>
-        ))
-      ) : (
-        <p>No data available</p>
-      )}
+      {/* 각 메뉴정보들을 item으로 보냄*/}
+      {recipes.COOKRCP01.row.map((it) => (
+        <Item key={it.RCP_SEQ} {...it} />
+      ))}
     </div>
   );
 };
+
 export default CookData;

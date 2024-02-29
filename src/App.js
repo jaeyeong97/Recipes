@@ -1,13 +1,20 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Response from "./components/Response";
-import CookData from "./components/CookData";
+import Home from "./pages/Home";
+import Search from "./pages/Search";
+import Item from "./pages/Item";
 
 function App() {
 
   return (
     <div className="App">
-      {/* <Response /> */}
-      <CookData />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/search" element={<Search />}></Route>
+          <Route path="/item/:id" element={<Item />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

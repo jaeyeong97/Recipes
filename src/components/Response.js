@@ -2,26 +2,19 @@ import React, { useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import CookData from "./CookData";
 
 const Response = () => {
   const [message, setMessage] = useState("");
 
   const commands = [
     {
-      command: "I would like to order *",
-      callback: (food) => setMessage(`Your order is for: ${food}`),
-    },
-    {
-      command: "The weather is :condition today",
-      callback: (condition) => setMessage(`Today, the weather is ${condition}`),
-    },
-    {
-      command: "Pass the salt (please)",
-      callback: () => setMessage("My pleasure"),
+      command: "계란",
+      callback: ({ command }) => setMessage(`${command}`),
     },
     {
       command: ["안녕", "안녕하세요"],
-      callback: ({ command }) => setMessage(`반갑습니다 당신이 말한건 : "${command}"`),
+      callback: ({ command }) => setMessage(`${command}`),
       // matchInterim: true, // 다 말하기전에 일치하면 바로 콜백 호출
     },
     {
@@ -73,8 +66,9 @@ const Response = () => {
       <button onClick={handleStartClick}>Start</button>
       <button onClick={SpeechRecognition.stopListening}>Stop</button>
       <button onClick={resetTranscript}>Reset</button>
-      <p>{message}</p>
-      <p>{transcript}</p>
+      <p>메세지 : {message}</p>
+      <p>내 발음 : {transcript}</p>
+      <CookData message={message} />
     </div>
   );
 };
