@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Item from "./pages/Item";
+import ItemModal from "./components/ItemModal";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/search" element={<Search />}></Route>
-          <Route path="/item/:id" element={<Item />}></Route>
+          <Route path="/item_modal/:id" element={<ItemModal />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

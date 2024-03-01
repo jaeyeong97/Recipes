@@ -68,7 +68,7 @@ const Response = () => {
       <button onClick={resetTranscript}>Reset</button>
       <p>메세지 : {message}</p>
       <p>내 발음 : {transcript}</p>
-      <CookData message={message} />
+      <CookData message={message} transcript={transcript} />
     </div>
   );
 };
