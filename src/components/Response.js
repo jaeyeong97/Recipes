@@ -3,13 +3,22 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import CookData from "./CookData";
+import styled from "styled-components";
 
+const RecordBox = styled.div`
+  position : fixed;
+  bottom : 20px;
+  right : 20px;
+  background-color : #fff;
+  border : 1px solid #222;
+  z-index : 1000;
+`;
 const Response = () => {
   const [message, setMessage] = useState("");
 
   const commands = [
     {
-      command: "계란",
+      command: "꺼 줘",
       callback: ({ command }) => setMessage(`${command}`),
     },
     {
@@ -51,6 +60,9 @@ const Response = () => {
       SpeechRecognition.startListening({ language: "ko" });
     }
   };
+  // const handleStopClick = () => {
+  //   SpeechRecognition.stopListening();
+  // }
 
   if (!browserSupportsSpeechRecognition) {
     return (
@@ -59,16 +71,17 @@ const Response = () => {
       </div>
     );
   }
-
   return (
     <div className="response">
-      <p>Microphone: {listening ? "듣고있는 중입니다." : "듣는중이 아닙니다."}</p>
-      <button onClick={handleStartClick}>Start</button>
-      <button onClick={SpeechRecognition.stopListening}>Stop</button>
-      <button onClick={resetTranscript}>Reset</button>
-      <p>메세지 : {message}</p>
-      <p>내 발음 : {transcript}</p>
-      <CookData message={message} transcript={transcript} />
+      <RecordBox>
+        <p>{listening ? "듣고있어요..." : ""}</p>
+        <button onClick={handleStartClick}>Start</button>
+        {/* <button onClick={handleStopClick}>Stop</button> */}
+        {/* <button onClick={resetTranscript}>Reset</button> */}
+        {listening && <p>{message}</p>}
+        {listening && <p>{transcript}</p>}
+      </RecordBox>
+      <CookData message={message} setMessage={setMessage} transcript={transcript} />
     </div>
   );
 };

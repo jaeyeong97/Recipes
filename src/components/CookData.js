@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Item from "../pages/Item";
 
-const CookData = ({ message, transcript }) => {
+const CookData = ({ message, setMessage, transcript }) => {
   const [recipes, setRecipes] = useState(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const CookData = ({ message, transcript }) => {
     <div className="cook_data">
       {/* 각 메뉴정보들을 item으로 보냄*/}
       {recipes.COOKRCP01.row.map((it) => (
-        <Item key={it.RCP_SEQ} {...it} message={message} transcript={transcript} />
+        <Item key={it.RCP_SEQ} {...it} message={message} setMessage={setMessage} transcript={transcript} />
       ))}
     </div>
   );

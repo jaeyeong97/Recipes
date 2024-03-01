@@ -1,11 +1,26 @@
 import styled from "styled-components";
 
 const ItemModalWrap = styled.div`
+    position : fixed;
+    top : 0;
+    left : 0;
     display : flex;
     flex-direction : column;
+    width : 100%;
+    height : 100vh;
+    overflow: scroll;
+    background-color : #fff;
 `;
-
-const ItemModal = ({ RCP_NM, RCP_PAT2,
+const Close = styled.div`
+    position : absolute;
+    top : 0;
+    right : 0;
+    width : 30px;
+    height : 30px;
+    background-color : #222;
+`;
+const ItemModal = ({
+    RCP_NM, RCP_PAT2,
     RCP_WAY2,
     INFO_WGT,
     INFO_ENG,
@@ -53,7 +68,13 @@ const ItemModal = ({ RCP_NM, RCP_PAT2,
     MANUAL_IMG18,
     MANUAL_IMG19,
     MANUAL_IMG20,
-    RCP_NA_TIP, }) => {
+    RCP_NA_TIP,
+    showMenu,
+    setShowMenu,
+}) => {
+    const handleClose = () => {
+        setShowMenu(!showMenu);
+    }
     return (
         <div className="item_modal">
             <ItemModalWrap>
@@ -107,6 +128,7 @@ const ItemModal = ({ RCP_NM, RCP_PAT2,
                 {MANUAL20 && <span>만드는법20: {MANUAL20}</span>}
                 {MANUAL_IMG20 && <span><img src={MANUAL_IMG20} alt="조리법20" /></span>}
                 {RCP_NA_TIP && <span>저감 조리법 TIP: {RCP_NA_TIP}</span>}
+                <Close onClick={() => { handleClose() }}>닫기</Close>
             </ItemModalWrap>
         </div>
     );

@@ -1,10 +1,10 @@
-import SearchBar from "../components/SearchBar";
+import Search from "./Search";
 import Response from "../components/Response";
 
 const Home = () => {
     return (
         <div className="home">
-            <SearchBar />
+            <Search />
             <Response />
         </div>
     );
