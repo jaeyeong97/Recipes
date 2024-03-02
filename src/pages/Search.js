@@ -1,8 +1,8 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 const SearchContainer = styled.div`
   width: 100%;
+  padding-bottom : 20px;
   .search_bar {
       display : flex;
       justify-content : center;
@@ -13,11 +13,8 @@ const SearchContainer = styled.div`
   }
 `;
 
-const Search = () => {
-  const [search, setSearch] = useState("");
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
+const Search = ({ search, setSearch, onclick }) => {
+
   return (
     <SearchContainer>
       <div className="search_bar">
@@ -25,7 +22,8 @@ const Search = () => {
           type="text"
           placeholder="요리명을 입력해주세요."
           value={search}
-          onChange={handleSearch}
+          onChange={e => setSearch(e.target.value)}
+          onClick={onclick}
         />
       </div>
     </SearchContainer>

@@ -2,22 +2,26 @@ import { useEffect, useState } from "react";
 import ItemModal from "../components/ItemModal";
 import styled from "styled-components";
 
-const ItemWrap = styled.div`
-width : 100%;
+const ItemListWrap = styled.div`
+    width : 200px;
+    margin : 10px;
+    // background-color : red;
+`;
+const ItemBox = styled.div`
+
 `;
 const ImgWrap = styled.div`
-width: 200px;
 img {
     width : 100%;
     height : auto;
+    object-fit : cover;
 }
 `;
 
-const Item = ({
+const ItemList = ({
     message,
     setMessage,
     transcript,
-    RCP_SEQ,
     ATT_FILE_NO_MAIN,
     RCP_NM, RCP_PAT2,
     RCP_WAY2,
@@ -98,17 +102,18 @@ const Item = ({
     }, [showMenu]);
 
     return (
-        <ItemWrap>
-            <ImgWrap>
-                <img
-                    src={ATT_FILE_NO_MAIN}
-                    alt="음식 이미지"
-                    onClick={() => handleMenuClick()}
-                />
-            </ImgWrap>
-            {RCP_NM}
+        <ItemListWrap>
+            <ItemBox>
+                <ImgWrap>
+                    <img
+                        src={ATT_FILE_NO_MAIN}
+                        alt="음식 이미지"
+                        onClick={() => handleMenuClick()}
+                    />
+                </ImgWrap>
+                {RCP_NM}
+            </ItemBox>
             {showMenu && <ItemModal
-                RCP_SEQ={RCP_SEQ}
                 RCP_NM={RCP_NM}
                 RCP_PAT2={RCP_PAT2}
                 RCP_WAY2={RCP_WAY2}
@@ -161,8 +166,8 @@ const Item = ({
                 RCP_NA_TIP={RCP_NA_TIP}
                 showMenu={showMenu}
                 setShowMenu={setShowMenu} />}
-        </ItemWrap >
+        </ItemListWrap >
     );
 };
 
-export default Item;
+export default ItemList;
