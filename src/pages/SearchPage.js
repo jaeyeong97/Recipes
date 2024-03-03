@@ -18,7 +18,7 @@ const SearchPage = ({
     const [search, setSearch] = useState("");
 
     const filterSearch = () => {
-        return search === '' ? [] : recipes.COOKRCP01.row.filter((it) => it.RCP_NM.toLowerCase().includes(search.toLowerCase()));
+        return search === '' ? [] : recipes.filter((it) => it.RCP_NM.toLowerCase().includes(search.toLowerCase()));
     }
 
     return (

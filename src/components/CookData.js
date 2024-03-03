@@ -27,14 +27,14 @@ const CookData = ({ message, setMessage, transcript, recipes, setRecipes }) => {
 
   // 섞은 레시피 저장된 함수
   useEffect(() => {
-    if (recipes !== null) {
-      const randomRecipes = doShuffle([...recipes.COOKRCP01.row]);
+    if (recipes) {
+      const randomRecipes = doShuffle([...recipes]);
       setRecommend(randomRecipes[0]);
     }
   }, [recipes]);
 
-  if (recipes === null || recommend === null) {
-    return <p>loading</p>;
+  if (!recipes || !recommend) {
+    return <p>Loading...레시피 함수가 안들어오나?</p>;
   }
 
   return (
@@ -42,7 +42,7 @@ const CookData = ({ message, setMessage, transcript, recipes, setRecipes }) => {
       {recommend && <RecommendedRecipe key={recommend.RCP_SEQ} {...recommend} />}
       <RecipeList >
         {/* 각 메뉴정보들을 ItemList으로 보냄*/}
-        {recipes.COOKRCP01.row.filter((recipe) => (recipe.RCP_SEQ !== recommend.RCP_SEQ)).map((it) => (
+        {recipes.filter((recipe) => (recipe.RCP_SEQ !== recommend.RCP_SEQ)).map((it) => (
           <ItemList key={it.RCP_SEQ} {...it} message={message} setMessage={setMessage} transcript={transcript} />
         ))}
       </RecipeList>

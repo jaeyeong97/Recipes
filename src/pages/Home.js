@@ -70,16 +70,19 @@ const Home = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    `/api/d94323bfaec344a59d3d/COOKRCP01/json/1/5/`
+                    `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/1/500/`
                 );
-                setRecipes(response.data);
+                if (response.data) {
+                    setRecipes(response.data.COOKRCP01.row);
+                } else {
+                    console.error("API 응답에 필요한 데이터가 없습니다.");
+                }
             } catch (error) {
                 console.error("api 호출 오류:", error.message);
             }
         };
         fetchData();
     }, []);
-
     // 검색창 클릭시 검색창 페이지 오픈
     const handleChangePage = () => {
         setChangeToSearch(!changeToSearch);
