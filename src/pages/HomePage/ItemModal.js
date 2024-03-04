@@ -10,6 +10,7 @@ const ItemModalWrap = styled.div`
     height : 100vh;
     overflow: scroll;
     background-color : #fff;
+    z-index : 10;
 `;
 const Close = styled.div`
     position : absolute;

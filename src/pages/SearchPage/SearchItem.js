@@ -1,27 +1,8 @@
 import { useEffect, useState } from "react";
-import ItemModal from "../components/ItemModal";
-import styled from "styled-components";
+import ItemList from "../HomePage/ItemList";
+import ItemModal from "../HomePage/ItemModal";
 
-const ItemListWrap = styled.div`
-    width : 200px;
-    margin : 10px;
-    // background-color : red;
-`;
-const ItemBox = styled.div`
-
-`;
-const ImgWrap = styled.div`
-img {
-    width : 100%;
-    height : auto;
-    object-fit : cover;
-}
-`;
-
-const ItemList = ({
-    message,
-    setMessage,
-    transcript,
+const SearchItem = ({
     ATT_FILE_NO_MAIN,
     RCP_NM, RCP_PAT2,
     RCP_WAY2,
@@ -72,26 +53,10 @@ const ItemList = ({
     MANUAL_IMG19,
     MANUAL_IMG20,
     RCP_NA_TIP, }) => {
-
-    // 각 이미지 클릭시 모달 열리게 토글,
     const [showMenu, setShowMenu] = useState(false);
     const handleMenuClick = () => {
         setShowMenu(!showMenu);
     };
-    // 음성명령 transcript가 레시피이름이랑 같을 경우 모달 열리게
-    useEffect(() => {
-        if (transcript === RCP_NM) {
-            setShowMenu(true);
-        }
-    }, [transcript, RCP_NM]);
-
-    useEffect(() => {
-        if (message === "꺼 줘") {
-            setShowMenu(false);
-            setMessage(""); // 안하면 계속 message 보임
-        };
-    }, [message, setMessage]);
-
     //모달 열릴 시 스크롤 설정
     useEffect(() => {
         if (showMenu) {
@@ -100,19 +65,14 @@ const ItemList = ({
             document.body.style.overflow = "auto";
         }
     }, [showMenu]);
-
     return (
-        <ItemListWrap>
-            <ItemBox>
-                <ImgWrap>
-                    <img
-                        src={ATT_FILE_NO_MAIN}
-                        alt="음식 이미지"
-                        onClick={() => handleMenuClick()}
-                    />
-                </ImgWrap>
-                {RCP_NM}
-            </ItemBox>
+        <div className="s">
+            <img
+                src={ATT_FILE_NO_MAIN}
+                alt="음식 이미지"
+                onClick={() => handleMenuClick()}
+            />
+            {RCP_NM}
             {showMenu && <ItemModal
                 RCP_NM={RCP_NM}
                 RCP_PAT2={RCP_PAT2}
@@ -166,8 +126,8 @@ const ItemList = ({
                 RCP_NA_TIP={RCP_NA_TIP}
                 showMenu={showMenu}
                 setShowMenu={setShowMenu} />}
-        </ItemListWrap >
+        </div>
     );
 };
 
-export default ItemList;
+export default SearchItem;

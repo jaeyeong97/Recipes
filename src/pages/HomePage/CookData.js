@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ItemList from "../pages/ItemList";
+import ItemList from "./ItemList";
 import styled from "styled-components";
 import RecommendedRecipe from "./RecommendedRecipe";
 
@@ -10,7 +10,7 @@ const RecipeList = styled.div`
   flex-wrap : wrap;
   justify-content : center;
 `;
-const CookData = ({ message, setMessage, transcript, recipes, setRecipes }) => {
+const CookData = ({ message, setMessage, transcript, recipes }) => {
 
   const [recommend, setRecommend] = useState(null);
 
@@ -25,7 +25,7 @@ const CookData = ({ message, setMessage, transcript, recipes, setRecipes }) => {
     return recipes;
   }
 
-  // 섞은 레시피 저장된 함수
+  // 섞은 레시피 첫번째 배열을 recommend에 저장
   useEffect(() => {
     if (recipes) {
       const randomRecipes = doShuffle([...recipes]);
@@ -33,8 +33,8 @@ const CookData = ({ message, setMessage, transcript, recipes, setRecipes }) => {
     }
   }, [recipes]);
 
-  if (!recipes || !recommend) {
-    return <p>Loading...레시피 함수가 안들어오나?</p>;
+  if (!recommend) {
+    return <p>Loading...</p>;
   }
 
   return (

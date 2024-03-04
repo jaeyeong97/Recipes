@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 const SearchContainer = styled.div`
   width: 100%;
+  max-width : 700px;
+  margin : 0 auto;
   padding-bottom : 20px;
   .search_bar {
       display : flex;

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Search from "./Search";
-import SearchItem from "../components/SearchItem";
+import Search from "../../components/Search";
+import SearchItem from "./SearchItem";
 import styled from "styled-components";
 
 const Title = styled.h2`
