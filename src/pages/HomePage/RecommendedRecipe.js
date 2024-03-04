@@ -5,17 +5,25 @@ const RecommendedRecipeItem = styled.div``;
 const RecoWrap = styled.div`
   width: 100%;
   display: flex;
+  flex-direction : column;
   justify-content : space-between;
+  align-items : center;
   padding: 20px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(5px);
+
+  @media (min-width: 768px) {
+    flex-direction : row;
+  }
+
 `;
 const RecoImg = styled.div`
-  width: 45%;
+  width: 100%;
   border-radius: 5px;
   overflow: hidden;
   cursor: pointer;
+  max-width : 400px;
   img {
     width: 100%;
     height: auto;
@@ -35,15 +43,26 @@ const RecoImg = styled.div`
     transform: translate(0, -50%);
     text-align: center;
   }
+
+  @media (min-width: 768px) {
+    width: 45%;
+    max-width: initial;
+  }
+
 `;
 const RecoText = styled.div`
   display : flex;
   flex-direction : column;
-  width: 50%;
+  width: 100%;
   color: #efefef;
   span{
     margin : 3px 0;
   }
+
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+
 `;
 const Title = styled.h2`
   text-align : center;

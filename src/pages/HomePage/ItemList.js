@@ -2,14 +2,20 @@ import { useEffect, useState } from "react";
 import ItemModal from "./ItemModal";
 import styled from "styled-components";
 
-const ItemListWrap = styled.div`
-`;
+const ItemListWrap = styled.div``;
 const ItemBox = styled.div`
   position: relative;
-  width: 200px;
-  margin : 10px;
-  border-radius : 5px;
-  overflow : hidden;
+  width: 130px;
+  height: 130px;
+  margin: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    width: 200px;
+    height: 200px;
+  }
+
 `;
 const ImgWrap = styled.div`
   position: relative;
@@ -37,20 +43,26 @@ const ImgWrap = styled.div`
   }
 `;
 const TxtWrap = styled.div`
-  position : absolute;
-  bottom : 0;
-  left : 0;
-  width : 100%;
-  text-align : center;
-  line-height : 40px;
-  font-size : 14px;
-  font-weight : 600;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
   color: #efefef;
-  background-color : rgba(0,0,0,0.5);
-  display : -webkit-box;
-  -webkit-line-clamp : 1;
-  -webkit-box-orient : vertical;
-  overflow : hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  
+  @media (min-width: 768px) {
+    font-size: 14px;
+    font-weight : 600;
+    line-height: 40px;
+  }
+
 `;
 const ItemList = ({
   message,
