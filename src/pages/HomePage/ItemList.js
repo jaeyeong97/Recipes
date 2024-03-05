@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import ItemModal from "./ItemModal";
 import styled from "styled-components";
 
-const ItemListWrap = styled.div``;
+const ItemListWrap = styled.div`
+`;
 const ItemBox = styled.div`
   position: relative;
   width: 130px;
-  height: 130px;
+  height: auto;
   margin: 10px;
   border-radius: 5px;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 2px 2px 4px rgba(0,0,0, 0.25);
 
   @media (min-width: 768px) {
     width: 200px;
@@ -50,7 +53,6 @@ const TxtWrap = styled.div`
   text-align: center;
   line-height: 30px;
   font-size: 12px;
-  color: #efefef;
   background-color: rgba(0, 0, 0, 0.5);
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -69,6 +71,7 @@ const ItemList = ({
   setMessage,
   transcript,
   ATT_FILE_NO_MAIN,
+  ATT_FILE_NO_MK,
   RCP_NM,
   RCP_PAT2,
   RCP_WAY2,
@@ -163,6 +166,7 @@ const ItemList = ({
       {showMenu && (
         <ItemModal
           RCP_NM={RCP_NM}
+          ATT_FILE_NO_MK={ATT_FILE_NO_MK}
           RCP_PAT2={RCP_PAT2}
           RCP_WAY2={RCP_WAY2}
           INFO_WGT={INFO_WGT}

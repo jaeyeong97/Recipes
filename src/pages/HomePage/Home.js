@@ -4,7 +4,6 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import CookData from "./CookData";
 import styled from "styled-components";
-import Search from "../../components/Search";
 import SearchPage from "../SearchPage/SearchPage";
 import axios from "axios";
 import Loading from "../LoadingPage/Loading";
@@ -13,14 +12,6 @@ const HomeWrap = styled.div`
   max-width: 1000px;
   margin: 0 auto;
 `;
-const RecordBox = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #fff;
-  border: 1px solid #222;
-  z-index: 1000;
-`;
 const Title = styled.h2`
   width: 100%;
   text-align: center;
@@ -28,11 +19,33 @@ const Title = styled.h2`
   line-height: 1em;
   padding: 30px;
   color: #efefef;
-`;
-const Home = () => {
+  `;
+  const RecordBox = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #fff;
+  border: 1px solid #222;
+  z-index: 1000;
+  
+  button{
+    color : #222;
+  }
+  `;
+  const Home = () => {
   const [message, setMessage] = useState("");
   const [recipes, setRecipes] = useState(null);
-  const [changeToSearch, setChangeToSearch] = useState(false);
+  const [changePage, setChangepage] = useState(false);
+  const [search, setSearch] = useState("");
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setChangepage(search === "" ? false : true);
+  };
+  // 뒤로가기 버튼
+  const goPrev = () => {
+    setChangepage(false);
+    setSearch("");
+  }
   const commands = [
     {
       command: "꺼 줘",
@@ -72,6 +85,7 @@ const Home = () => {
     resetTranscript,
   } = useSpeechRecognition({ commands });
 
+  // 레시피 api 호출
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,10 +99,7 @@ const Home = () => {
     };
     fetchData();
   }, []);
-  // 검색창 클릭시 검색창 페이지 오픈
-  const handleChangePage = () => {
-    setChangeToSearch(!changeToSearch);
-  };
+  console.log(recipes)
   const handleStartClick = () => {
     if (browserSupportsSpeechRecognition) {
       SpeechRecognition.startListening({ language: "ko" });
@@ -102,41 +113,36 @@ const Home = () => {
     return <p>음성인식이 지원되지 않는 브라우저입니다.</p>;
   }
 
-//   로딩페이지
+  //   로딩페이지
   if (!recipes) {
-    return (
-        <Loading />
-    );
+    return <Loading />;
   }
 
   return (
     <HomeWrap>
-      {changeToSearch ? (
-        <SearchPage recipes={recipes} />
-      ) : (
-        <>
-          <Title>레시피 파인더</Title>
-          <Search
-            onclick={() => {
-              handleChangePage();
-            }}
-          />
-          <CookData
-            message={message}
-            setMessage={setMessage}
-            transcript={transcript}
-            recipes={recipes}
-            setRecipes={setRecipes}
-          />
-          <RecordBox>
-            <p>{listening ? "듣고있어요..." : ""}</p>
-            <button onClick={handleStartClick}>Start</button>
-            <button onClick={handleStopClick}>Stop</button>
-            {listening && <p>{message}</p>}
-            {listening && <p>{transcript}</p>}
-          </RecordBox>
-        </>
+      <Title>레시피 파인더</Title>
+      <SearchPage
+        recipes={recipes}
+        search={search}
+        handleSearch={handleSearch}
+        goPrev={goPrev}
+      />
+      {changePage ? null : (
+        <CookData
+          message={message}
+          setMessage={setMessage}
+          transcript={transcript}
+          recipes={recipes}
+          setRecipes={setRecipes}
+        />
       )}
+      <RecordBox>
+        <p>{listening ? "듣고있어요..." : ""}</p>
+        <button onClick={handleStartClick}>Start</button>
+        <button onClick={handleStopClick}>Stop</button>
+        {listening && <p>{message}</p>}
+        {listening && <p>{transcript}</p>}
+      </RecordBox>
     </HomeWrap>
   );
 };

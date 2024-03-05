@@ -1,29 +1,47 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ItemModal from "./ItemModal";
-const RecommendedRecipeItem = styled.div``;
+const RecommendedRecipeItem = styled.div`
+  margin-bottom : 50px;
+`;
 const RecoWrap = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction : column;
-  justify-content : space-between;
-  align-items : center;
+  width: calc(100% - 40px);
+  margin: 0 auto;
   padding: 20px;
+  max-width : 600px;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);
 
   @media (min-width: 768px) {
-    flex-direction : row;
+    padding: 40px;
   }
+`;
+const Title = styled.h2`
+  text-align: center;
+  line-height: 1em;
+  margin-bottom: 15px;
+  font-size: 25px;
+`;
+const RecoInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: initial;
+  }
 `;
 const RecoImg = styled.div`
   width: 100%;
   border-radius: 5px;
   overflow: hidden;
   cursor: pointer;
-  max-width : 400px;
+  max-width: 250px;
   img {
     width: 100%;
     height: auto;
@@ -48,30 +66,22 @@ const RecoImg = styled.div`
     width: 45%;
     max-width: initial;
   }
-
 `;
 const RecoText = styled.div`
-  display : flex;
-  flex-direction : column;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  color: #efefef;
-  span{
-    margin : 3px 0;
+  span {
+    margin: 3px 0;
   }
 
   @media (min-width: 768px) {
     width: 50%;
   }
-
-`;
-const Title = styled.h2`
-  text-align : center;
-  line-height : 1.5em;
-  font-size : 25px;
 `;
 const RecipeName = styled.span`
-  font-size : 18px;
-  padding : 10px 0;
+  font-size: 18px;
+  padding: 10px 0;
 `;
 const RecommendedRecipe = ({
   ATT_FILE_NO_MK,
@@ -143,24 +153,27 @@ const RecommendedRecipe = ({
   return (
     <RecommendedRecipeItem>
       <RecoWrap>
-        <RecoImg>
-          <img
-            src={ATT_FILE_NO_MK}
-            alt="음식 이미지"
-            onClick={() => handleMenuClick()}
-          />
-        </RecoImg>
-        <RecoText>
-          <Title>오늘의 추천 레시피</Title>
-          <RecipeName>{RCP_NM}</RecipeName>
-          <span>{RCP_PARTS_DTLS}</span>
-          <span>•조리방법 : {RCP_WAY2}</span>
-          <span>•요리종류 : {RCP_PAT2}</span>
-        </RecoText>
+        <Title>오늘의 추천 레시피</Title>
+        <RecoInner>
+          <RecoImg>
+            <img
+              src={ATT_FILE_NO_MK}
+              alt="음식 이미지"
+              onClick={() => handleMenuClick()}
+            />
+          </RecoImg>
+          <RecoText>
+            <RecipeName>{RCP_NM}</RecipeName>
+            <span>{RCP_PARTS_DTLS}</span>
+            <span>•조리방법 : {RCP_WAY2}</span>
+            <span>•요리종류 : {RCP_PAT2}</span>
+          </RecoText>
+        </RecoInner>
       </RecoWrap>
       {showMenu && (
         <ItemModal
           RCP_NM={RCP_NM}
+          ATT_FILE_NO_MK={ATT_FILE_NO_MK}
           RCP_PAT2={RCP_PAT2}
           RCP_WAY2={RCP_WAY2}
           INFO_WGT={INFO_WGT}

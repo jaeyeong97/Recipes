@@ -1,33 +1,26 @@
-import { useState } from "react";
 import Search from "../../components/Search";
 import SearchItem from "./SearchItem";
 import styled from "styled-components";
 
-const Title = styled.h2`
-    width : 100%;
-    text-align : center;
-    font-size : 28px;
-    line-height : 1em;
-    padding : 30px;
+const SearchPageWrap = styled.div`
 `;
-
-const SearchPage = ({
-    ATT_FILE_NO_MAIN,
-    RCP_NM,
-    recipes }) => {
-    const [search, setSearch] = useState("");
-
-    const filterSearch = () => {
-        return search === '' ? [] : recipes.filter((it) => it.RCP_NM.toLowerCase().includes(search.toLowerCase()));
-    }
-
-    return (
-        <div className="search_page">
-            <Title>레시피 파인더</Title>
-            <Search search={search} setSearch={setSearch} />
-            {filterSearch().map((it) => (<SearchItem key={it.RCP_SEQ} {...it} />))}
-        </div>
-    );
+const SearchPage = ({ search, recipes, handleSearch, onClick, goPrev }) => {
+  const filterSearch = () => {
+    return search === ""
+      ? []
+      : recipes.filter((it) =>
+      // 레시피명 혹은 레시피 재료에 맞게 검색
+          it.RCP_PARTS_DTLS.toLowerCase().includes(search.toLowerCase()) || it.RCP_NM.toLowerCase().includes(search.toLowerCase())
+        );
+  };
+  return (
+    <SearchPageWrap>
+      <Search search={search} onChange={handleSearch} onClick={onClick} goPrev={goPrev}/>
+      {filterSearch().map((it) => (
+        <SearchItem key={it.RCP_SEQ} {...it} />
+      ))}
+    </SearchPageWrap>
+  );
 };
 
 export default SearchPage;
