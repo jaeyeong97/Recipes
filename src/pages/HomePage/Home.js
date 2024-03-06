@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
 import CookData from "./CookData";
 import styled, { keyframes } from "styled-components";
 import SearchPage from "../SearchPage/SearchPage";
-import axios from "axios";
 import Loading from "../LoadingPage/Loading";
-import Pagination from "rc-pagination/lib/Pagination";
-import '../../components/pagination.css';
+import LoadingList from "../LoadingPage/LoadingList";
 
 const speechAnimation = keyframes`
   0% {
@@ -81,8 +81,8 @@ const Home = () => {
   const [changePage, setChangepage] = useState(false); //검색페이지
   const [recordBtn, setRecordBtn] = useState(false); //녹음 버튼
   const [search, setSearch] = useState(""); // 검색 데이터
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const itemsCountPerPage = 12; //한 페이지당 아이템 개수
+  const [currentIndex, setCurrentIndex] = useState(51); // 현재 레시피 인덱스
+  const [nextIndex, setNextIndex] = useState(62) // 다음 레시피 인덱스
 
   // 검색창 토글
   const handleSearch = (e) => {
@@ -136,28 +136,30 @@ const Home = () => {
     resetTranscript,
   } = useSpeechRecognition({ commands });
 
-  // 레시피 api 호출
+  // 전체레시피 api 호출
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const startItem = (currentPage - 1) * itemsCountPerPage + 1;
-        const endItem = itemsCountPerPage * currentPage;
-
         const response = await axios.get(
-          `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/${startItem}/${endItem}/`
+          `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/${currentIndex}/${nextIndex}/`
         );
-        setRecipes(response.data.COOKRCP01.row);
+        setRecipes((prevRecipes) => {
+          if (prevRecipes === null) {
+            return response.data.COOKRCP01.row;
+          }
+          return [...prevRecipes, ...response.data.COOKRCP01.row];
+        });
       } catch (error) {
-        console.error("api 호출 오류:", error.message);
+        console.error("전체 api 호출 오류:", error.message);
       }
     };
     fetchData();
-  }, [currentPage]);
+  }, [currentIndex, nextIndex]);
+  const fetchMoreData = () => {
+    setCurrentIndex((prevIndex) => prevIndex + 12);
+    setNextIndex((prevNextIndex) => prevNextIndex + 12);
+  };
 
-  // 음성녹음이 지원되지 않는 브라우져일 경우
-  if (!browserSupportsSpeechRecognition) {
-    return <p>음성인식이 지원되지 않는 브라우저입니다.</p>;
-  }
 
   // 음성녹음 버튼 토글
   const handleRecord = () => {
@@ -169,14 +171,14 @@ const Home = () => {
     }
   };
 
-    // 페이지 숫자 누를시
-    const handlePageChange = (page) => {
-      setCurrentPage(page);
-    };
+  // 음성녹음이 지원되지 않는 브라우져일 경우
+  if (!browserSupportsSpeechRecognition) {
+    return <p>음성인식이 지원되지 않는 브라우저입니다.</p>;
+  }
 
   //  로딩페이지
   if (!recipes) {
-    return <Loading />;
+    return <LoadingList />;
   }
 
   return (
@@ -189,20 +191,21 @@ const Home = () => {
         goPrev={goPrev}
       />
       {changePage ? null : (
-        <CookData
-          message={message}
-          setMessage={setMessage}
-          transcript={transcript}
-          recipes={recipes}
-          setRecipes={setRecipes}
-        />
+        <InfiniteScroll
+          dataLength={recipes.length}
+          next={fetchMoreData}
+          hasMore={true}
+          loader={<LoadingList />}
+        >
+          <CookData
+            message={message}
+            setMessage={setMessage}
+            transcript={transcript}
+            recipes={recipes}
+            setRecipes={setRecipes}
+          />
+        </InfiniteScroll>
       )}
-      <Pagination
-        current={currentPage}
-        pageSize={itemsCountPerPage}
-        total={500}
-        onChange={handlePageChange}
-      />
       <RecordBtn
         onClick={() => {
           handleRecord();

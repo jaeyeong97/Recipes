@@ -134,7 +134,6 @@ const ItemList = ({
       setShowMenu(true);
     }
   }, [transcript, RCP_NM]);
-
   useEffect(() => {
     if (message === "꺼 줘") {
       setShowMenu(false);
