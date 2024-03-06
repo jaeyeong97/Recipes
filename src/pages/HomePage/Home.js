@@ -3,10 +3,20 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import CookData from "./CookData";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import SearchPage from "../SearchPage/SearchPage";
 import axios from "axios";
 import Loading from "../LoadingPage/Loading";
+
+const speechAnimation = keyframes`
+  0% {
+    height: 0;
+    padding : 0;
+  }
+  100% {
+    height: 250px;
+  }
+`;
 
 const HomeWrap = styled.div`
   max-width: 1000px;
@@ -20,7 +30,7 @@ const Title = styled.h2`
   padding: 30px;
   color: #efefef;
 `;
-const RecordBox = styled.div`
+const RecordBtn = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -29,7 +39,7 @@ const RecordBox = styled.div`
   cursor: pointer;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);
   z-index: 1000;
@@ -50,6 +60,18 @@ const RecordBox = styled.div`
     background-image: url(./assets/mute.png);
   }
 `;
+const SpeechBox = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  padding: 40px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.95);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  animation: ${speechAnimation} 0.2s linear;
+`;
 const Home = () => {
   const [message, setMessage] = useState("");
   const [recipes, setRecipes] = useState(null);
@@ -57,6 +79,7 @@ const Home = () => {
   const [recordBtn, setRecordBtn] = useState(false);
   const [search, setSearch] = useState("");
 
+  // 검색창 토글
   const handleSearch = (e) => {
     setSearch(e.target.value);
     setChangepage(search === "" ? false : true);
@@ -122,21 +145,12 @@ const Home = () => {
     };
     fetchData();
   }, []);
-  // 음성녹음 시작
-  const handleStartClick = () => {
-    if (browserSupportsSpeechRecognition) {
-      SpeechRecognition.startListening({ language: "ko" });
-    }
-  };
-  // 음성녹음 정지
-  const handleStopClick = () => {
-    SpeechRecognition.stopListening();
-  };
   // 음성녹음이 지원되지 않는 브라우져일 경우
   if (!browserSupportsSpeechRecognition) {
     return <p>음성인식이 지원되지 않는 브라우저입니다.</p>;
   }
 
+  // 음성녹음 버튼 토글
   const handleRecord = () => {
     setRecordBtn(!recordBtn);
     if (!recordBtn) {
@@ -169,7 +183,7 @@ const Home = () => {
           setRecipes={setRecipes}
         />
       )}
-      <RecordBox
+      <RecordBtn
         onClick={() => {
           handleRecord();
         }}
@@ -179,10 +193,14 @@ const Home = () => {
         ) : (
           <div className="startBtn btn"></div>
         )}
-      </RecordBox>
-      {/* <p>{listening ? "듣고있어요..." : ""}</p> */}
-      {/* {listening && <p>{message}</p>} */}
-      {/* {listening && <p>{transcript}</p>} */}
+      </RecordBtn>
+      {recordBtn ? (
+        <SpeechBox>
+          <p>{listening ? "듣고있어요..." : ""}</p>
+          {listening && <p>{message}</p>}
+          {listening && <p>{transcript}</p>}
+        </SpeechBox>
+      ) : null}
     </HomeWrap>
   );
 };

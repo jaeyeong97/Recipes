@@ -10,11 +10,11 @@ const RecoWrap = styled.div`
   padding: 20px;
   max-width : 600px;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);
-
+  
   @media (min-width: 768px) {
     padding: 40px;
   }

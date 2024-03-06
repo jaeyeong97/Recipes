@@ -12,7 +12,7 @@ const SearchBox = styled.div`
   padding: 20px;
   cursor: pointer;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);

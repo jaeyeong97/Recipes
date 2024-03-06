@@ -33,7 +33,7 @@ const ItemModalWrap = styled.div`
     border-radius: 5px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
 
     .img_wrap {
@@ -80,7 +80,7 @@ const Orders = styled.div`
     border-radius: 5px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
     img {
       width: 45%;
