@@ -19,33 +19,55 @@ const Title = styled.h2`
   line-height: 1em;
   padding: 30px;
   color: #efefef;
-  `;
-  const RecordBox = styled.div`
+`;
+const RecordBox = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #fff;
-  border: 1px solid #222;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
   z-index: 1000;
-  
-  button{
-    color : #222;
+  .btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 40px 40px;
+    background-position: center;
+    background-repeat: no-repeat;
   }
-  `;
-  const Home = () => {
+  .startBtn {
+    background-image: url(./assets/microphone.png);
+  }
+  .stopBtn {
+    background-image: url(./assets/mute.png);
+  }
+`;
+const Home = () => {
   const [message, setMessage] = useState("");
   const [recipes, setRecipes] = useState(null);
   const [changePage, setChangepage] = useState(false);
+  const [recordBtn, setRecordBtn] = useState(false);
   const [search, setSearch] = useState("");
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
     setChangepage(search === "" ? false : true);
   };
+
   // 뒤로가기 버튼
   const goPrev = () => {
     setChangepage(false);
     setSearch("");
-  }
+  };
+
   const commands = [
     {
       command: "꺼 줘",
@@ -78,6 +100,7 @@ const Title = styled.h2`
       callback: ({ resetTranscript }) => resetTranscript(), //clear라고 말할 시 음성인식 결과 초기화
     },
   ];
+
   const {
     transcript,
     listening,
@@ -99,21 +122,31 @@ const Title = styled.h2`
     };
     fetchData();
   }, []);
-  console.log(recipes)
+  // 음성녹음 시작
   const handleStartClick = () => {
     if (browserSupportsSpeechRecognition) {
       SpeechRecognition.startListening({ language: "ko" });
     }
   };
+  // 음성녹음 정지
   const handleStopClick = () => {
     SpeechRecognition.stopListening();
   };
-
+  // 음성녹음이 지원되지 않는 브라우져일 경우
   if (!browserSupportsSpeechRecognition) {
     return <p>음성인식이 지원되지 않는 브라우저입니다.</p>;
   }
 
-  //   로딩페이지
+  const handleRecord = () => {
+    setRecordBtn(!recordBtn);
+    if (!recordBtn) {
+      SpeechRecognition.startListening({ language: "ko" });
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  };
+
+  //  로딩페이지
   if (!recipes) {
     return <Loading />;
   }
@@ -136,13 +169,20 @@ const Title = styled.h2`
           setRecipes={setRecipes}
         />
       )}
-      <RecordBox>
-        <p>{listening ? "듣고있어요..." : ""}</p>
-        <button onClick={handleStartClick}>Start</button>
-        <button onClick={handleStopClick}>Stop</button>
-        {listening && <p>{message}</p>}
-        {listening && <p>{transcript}</p>}
+      <RecordBox
+        onClick={() => {
+          handleRecord();
+        }}
+      >
+        {recordBtn ? (
+          <div className="stopBtn btn"></div>
+        ) : (
+          <div className="startBtn btn"></div>
+        )}
       </RecordBox>
+      {/* <p>{listening ? "듣고있어요..." : ""}</p> */}
+      {/* {listening && <p>{message}</p>} */}
+      {/* {listening && <p>{transcript}</p>} */}
     </HomeWrap>
   );
 };
