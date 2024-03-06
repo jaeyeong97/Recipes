@@ -7,6 +7,8 @@ import styled, { keyframes } from "styled-components";
 import SearchPage from "../SearchPage/SearchPage";
 import axios from "axios";
 import Loading from "../LoadingPage/Loading";
+import Pagination from "rc-pagination/lib/Pagination";
+import '../../components/pagination.css';
 
 const speechAnimation = keyframes`
   0% {
@@ -72,12 +74,15 @@ const SpeechBox = styled.div`
   border-top: 2px solid rgba(255, 255, 255, 0.2);
   animation: ${speechAnimation} 0.2s linear;
 `;
+
 const Home = () => {
-  const [message, setMessage] = useState("");
-  const [recipes, setRecipes] = useState(null);
-  const [changePage, setChangepage] = useState(false);
-  const [recordBtn, setRecordBtn] = useState(false);
-  const [search, setSearch] = useState("");
+  const [message, setMessage] = useState(""); //음성메시지 
+  const [recipes, setRecipes] = useState(null); //레시피 데이터
+  const [changePage, setChangepage] = useState(false); //검색페이지
+  const [recordBtn, setRecordBtn] = useState(false); //녹음 버튼
+  const [search, setSearch] = useState(""); // 검색 데이터
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const itemsCountPerPage = 12; //한 페이지당 아이템 개수
 
   // 검색창 토글
   const handleSearch = (e) => {
@@ -135,8 +140,11 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const startItem = (currentPage - 1) * itemsCountPerPage + 1;
+        const endItem = itemsCountPerPage * currentPage;
+
         const response = await axios.get(
-          `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/1/500/`
+          `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/${startItem}/${endItem}/`
         );
         setRecipes(response.data.COOKRCP01.row);
       } catch (error) {
@@ -144,7 +152,8 @@ const Home = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [currentPage]);
+
   // 음성녹음이 지원되지 않는 브라우져일 경우
   if (!browserSupportsSpeechRecognition) {
     return <p>음성인식이 지원되지 않는 브라우저입니다.</p>;
@@ -159,6 +168,11 @@ const Home = () => {
       SpeechRecognition.stopListening();
     }
   };
+
+    // 페이지 숫자 누를시
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
 
   //  로딩페이지
   if (!recipes) {
@@ -183,6 +197,12 @@ const Home = () => {
           setRecipes={setRecipes}
         />
       )}
+      <Pagination
+        current={currentPage}
+        pageSize={itemsCountPerPage}
+        total={500}
+        onChange={handlePageChange}
+      />
       <RecordBtn
         onClick={() => {
           handleRecord();
@@ -196,7 +216,7 @@ const Home = () => {
       </RecordBtn>
       {recordBtn ? (
         <SpeechBox>
-          <p>{listening ? "듣고있어요..." : ""}</p>
+          <p>{listening ? "듣고있어요..." : "마이크 연결 상태를 확인해주세요."}</p>
           {listening && <p>{message}</p>}
           {listening && <p>{transcript}</p>}
         </SpeechBox>

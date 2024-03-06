@@ -40,17 +40,15 @@ const CookData = ({ message, setMessage, transcript, recipes }) => {
       )}
       <RecipeList>
         {/* 각 메뉴정보들을 ItemList으로 보냄*/}
-        {recipes
-          .filter((recipe) => recipe.RCP_SEQ !== recommend.RCP_SEQ)
-          .map((it) => (
-            <ItemList
-              key={it.RCP_SEQ}
-              {...it}
-              message={message}
-              setMessage={setMessage}
-              transcript={transcript}
-            />
-          ))}
+        {recipes.map((it) => (
+          <ItemList
+            key={it.RCP_SEQ}
+            {...it}
+            message={message}
+            setMessage={setMessage}
+            transcript={transcript}
+          />
+        ))}
       </RecipeList>
     </CookDataWrap>
   );
