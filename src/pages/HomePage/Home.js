@@ -178,7 +178,7 @@ const Home = () => {
 
   //  로딩페이지
   if (!recipes) {
-    return <LoadingList />;
+    return <Loading />;
   }
 
   return (

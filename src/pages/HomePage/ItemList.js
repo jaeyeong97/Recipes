@@ -7,7 +7,7 @@ const ItemListWrap = styled.div`
 const ItemBox = styled.div`
   position: relative;
   width: 130px;
-  height: auto;
+  height: 130px;
   margin: 10px;
   border-radius: 5px;
   overflow: hidden;
