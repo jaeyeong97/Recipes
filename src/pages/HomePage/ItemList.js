@@ -128,12 +128,16 @@ const ItemList = ({
   const handleMenuClick = () => {
     setShowMenu(!showMenu);
   };
+
   // 음성명령 transcript가 레시피이름이랑 같을 경우 모달 열리게
   useEffect(() => {
-    if (transcript === RCP_NM) {
+    const scr = transcript.replace(/\s/g, ""); // 띄어쓰기 제거
+    const rc = RCP_NM.replace(/\s/g, ""); // 레시피 이름에서 띄어쓰기 제거
+    if (scr === rc) {
       setShowMenu(true);
     }
   }, [transcript, RCP_NM]);
+
   useEffect(() => {
     if (message === "꺼 줘") {
       setShowMenu(false);

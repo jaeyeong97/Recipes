@@ -44,7 +44,7 @@ const RecordBtn = styled.div`
   border: 2px solid rgba(255, 255, 255, 0.2);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);
-  z-index: 1000;
+  z-index: 1;
   .btn {
     position: absolute;
     top: 0;

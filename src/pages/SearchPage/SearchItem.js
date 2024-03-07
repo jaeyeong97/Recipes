@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import ItemModal from "../HomePage/ItemModal";
 import styled from "styled-components";
 
-const SearchWrap = styled.div``;
+const SearchWrap = styled.div`
+  padding-bottom : 1px;
+`;
 const SearchBox = styled.div`
   display: flex;
   justify-content: space-between;

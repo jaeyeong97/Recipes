@@ -74,7 +74,9 @@ const RecoText = styled.div`
   span {
     margin: 3px 0;
   }
-
+  .dtls{
+    margin : 5px 0 10px 20px;
+  }
   @media (min-width: 768px) {
     width: 50%;
   }
@@ -153,7 +155,7 @@ const RecommendedRecipe = ({
   return (
     <RecommendedRecipeItem>
       <RecoWrap>
-        <Title>오늘의 추천 레시피</Title>
+        <Title> 👩‍🍳추천 레시피👨‍🍳</Title>
         <RecoInner>
           <RecoImg>
             <img
@@ -164,7 +166,8 @@ const RecommendedRecipe = ({
           </RecoImg>
           <RecoText>
             <RecipeName>{RCP_NM}</RecipeName>
-            <span>{RCP_PARTS_DTLS}</span>
+            <span>•기본재료</span>
+            <span className="dtls">{RCP_PARTS_DTLS}</span>
             <span>•조리방법 : {RCP_WAY2}</span>
             <span>•요리종류 : {RCP_PAT2}</span>
           </RecoText>

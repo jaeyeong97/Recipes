@@ -92,6 +92,17 @@ const Orders = styled.div`
       width: 50%;
     }
   }
+  .tip{
+    display : inline-block;
+    width : 100%;
+    padding: 10px;
+    margin-bottom : 50px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+  }
 `;
 const ItemModal = ({
   RCP_NM,
@@ -292,7 +303,7 @@ const ItemModal = ({
               <img src={MANUAL_IMG20} alt="조리법20" />
             </div>
           )}
-          {RCP_NA_TIP && <span>저감 조리법 TIP: {RCP_NA_TIP}</span>}
+          {RCP_NA_TIP && <span className="tip">저감 조리법 TIP: {RCP_NA_TIP}</span>}
         </Orders>
         <Close
           onClick={() => {
