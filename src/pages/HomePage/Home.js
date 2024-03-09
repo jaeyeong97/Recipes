@@ -61,6 +61,17 @@ const RecordBtn = styled.div`
   .stopBtn {
     background-image: url(./assets/mute.png);
   }
+  .textBox{
+    position : absolute;
+    top : -60px;
+    left : -30px;
+    width : 100px;
+    padding : 5px;
+    border : 1px solid #efefef;
+    border-radius : 10px;
+    font-size : 12px;
+    background-color: #111;
+  }
 `;
 const SpeechBox = styled.div`
   position: fixed;
@@ -76,13 +87,23 @@ const SpeechBox = styled.div`
 `;
 
 const Home = () => {
-  const [message, setMessage] = useState(""); //음성메시지 
   const [recipes, setRecipes] = useState(null); //레시피 데이터
   const [changePage, setChangepage] = useState(false); //검색페이지
   const [recordBtn, setRecordBtn] = useState(false); //녹음 버튼
   const [search, setSearch] = useState(""); // 검색 데이터
   const [currentIndex, setCurrentIndex] = useState(51); // 현재 레시피 인덱스
-  const [nextIndex, setNextIndex] = useState(62) // 다음 레시피 인덱스
+  const [nextIndex, setNextIndex] = useState(74) // 다음 레시피 인덱스
+  const [recordHelper, setRecordHelper] = useState(true);
+
+  //음성인식 사용유도 메세지
+  useEffect(() => {
+    const timer = (setTimeout(() => {
+      if (recipes) {
+        setRecordHelper(false)
+      }
+    }, 3000))
+    return () => clearTimeout(timer);
+  }, [recipes]);
 
   // 검색창 토글
   const handleSearch = (e) => {
@@ -96,45 +117,12 @@ const Home = () => {
     setSearch("");
   };
 
-  const commands = [
-    {
-      command: "꺼 줘",
-      callback: ({ command }) => setMessage(`${command}`),
-    },
-    {
-      command: ["안녕", "안녕하세요"],
-      callback: ({ command }) => setMessage(`${command}`),
-      // matchInterim: true, // 다 말하기전에 일치하면 바로 콜백 호출
-    },
-    {
-      command: "Beijing",
-      callback: (command, spokenPhrase, similarityRatio) =>
-        setMessage(
-          `${command} and ${spokenPhrase} are ${similarityRatio * 100}% similar`
-        ),
-      // If the spokenPhrase is "Benji", the message would be "Beijing and Benji are 40% similar"
-      isFuzzyMatch: true, // 비슷한 단어나 발음 고려하여 매칭
-      fuzzyMatchingThreshold: 0.2, //20% 이상 유사도 가진 단어만 매칭
-    },
-    {
-      command: ["eat", "sleep", "leave"],
-      callback: (command) => setMessage(`Best matching command: ${command}`),
-      isFuzzyMatch: true,
-      fuzzyMatchingThreshold: 0.2,
-      bestMatchOnly: true, // 가장 비슷한 단어를 골라 해당하는 것만 콜백 호출되게
-    },
-    {
-      command: "clear",
-      callback: ({ resetTranscript }) => resetTranscript(), //clear라고 말할 시 음성인식 결과 초기화
-    },
-  ];
 
   const {
     transcript,
     listening,
     browserSupportsSpeechRecognition,
-    resetTranscript,
-  } = useSpeechRecognition({ commands });
+  } = useSpeechRecognition();
 
   // 전체레시피 api 호출
   useEffect(() => {
@@ -150,14 +138,14 @@ const Home = () => {
           return [...prevRecipes, ...response.data.COOKRCP01.row];
         });
       } catch (error) {
-        console.error("전체 api 호출 오류:", error.message);
+        console.error("api 호출 오류:", error.message);
       }
     };
     fetchData();
   }, [currentIndex, nextIndex]);
   const fetchMoreData = () => {
-    setCurrentIndex((prevIndex) => prevIndex + 12);
-    setNextIndex((prevNextIndex) => prevNextIndex + 12);
+    setCurrentIndex((prevIndex) => prevIndex + 24);
+    setNextIndex((prevNextIndex) => prevNextIndex + 24);
   };
 
 
@@ -198,11 +186,9 @@ const Home = () => {
           loader={<LoadingList />}
         >
           <CookData
-            message={message}
-            setMessage={setMessage}
             transcript={transcript}
             recipes={recipes}
-            setRecipes={setRecipes}
+            setRecordBtn={setRecordBtn}
           />
         </InfiniteScroll>
       )}
@@ -211,16 +197,18 @@ const Home = () => {
           handleRecord();
         }}
       >
+        {recordHelper && <span className="textBox">음성인식 기능을 사용해보세요! ▼</span>}
+
         {recordBtn ? (
           <div className="stopBtn btn"></div>
         ) : (
-          <div className="startBtn btn"></div>
+          <div className="startBtn btn">
+          </div>
         )}
       </RecordBtn>
       {recordBtn ? (
         <SpeechBox>
-          <p>{listening ? "듣고있어요..." : "마이크 연결 상태를 확인해주세요."}</p>
-          {listening && <p>{message}</p>}
+          <p>{listening ? "듣고있어요..." : "검색 결과가 없거나 마이크가 연결되어 있지 않습니다."}</p>
           {listening && <p>{transcript}</p>}
         </SpeechBox>
       ) : null}

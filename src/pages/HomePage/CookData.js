@@ -9,7 +9,7 @@ const RecipeList = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-const CookData = ({ message, setMessage, transcript, recipes, }) => {
+const CookData = ({ transcript, recipes, setRecordBtn }) => {
   const [recommend, setRecommend] = useState(null);
 
   //레시피 섞기 함수
@@ -44,9 +44,8 @@ const CookData = ({ message, setMessage, transcript, recipes, }) => {
           <ItemList
             key={it.RCP_SEQ}
             {...it}
-            message={message}
-            setMessage={setMessage}
             transcript={transcript}
+            setRecordBtn={setRecordBtn}
           />
         ))}
       </RecipeList>

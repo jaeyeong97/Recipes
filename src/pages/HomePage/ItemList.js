@@ -67,9 +67,8 @@ const TxtWrap = styled.div`
 
 `;
 const ItemList = ({
-  message,
-  setMessage,
   transcript,
+  setRecordBtn,
   ATT_FILE_NO_MAIN,
   ATT_FILE_NO_MK,
   RCP_NM,
@@ -135,15 +134,9 @@ const ItemList = ({
     const rc = RCP_NM.replace(/\s/g, ""); // 레시피 이름에서 띄어쓰기 제거
     if (scr === rc) {
       setShowMenu(true);
+      setRecordBtn(false);
     }
-  }, [transcript, RCP_NM]);
-
-  useEffect(() => {
-    if (message === "꺼 줘") {
-      setShowMenu(false);
-      setMessage(""); // 안하면 계속 message 보임
-    }
-  }, [message, setMessage]);
+  }, [transcript, RCP_NM, setRecordBtn]);
 
   //모달 열릴 시 스크롤 설정
   useEffect(() => {
