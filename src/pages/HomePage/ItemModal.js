@@ -86,7 +86,8 @@ const Orders = styled.div`
       width: 45%;
       height: auto;
       object-fit: cover;
-      max-width : 200px;
+      max-width : 250px;
+      border-radius : 5px;
     }
     span {
       width: 50%;

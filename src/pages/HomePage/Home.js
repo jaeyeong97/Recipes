@@ -183,6 +183,7 @@ const Home = () => {
           dataLength={recipes.length}
           next={fetchMoreData}
           hasMore={true}
+          scrollThreshold={1}
           loader={<LoadingList />}
         >
           <CookData
