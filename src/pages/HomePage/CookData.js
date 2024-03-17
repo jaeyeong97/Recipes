@@ -9,7 +9,7 @@ const RecipeList = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-const CookData = ({ transcript, recipes, setRecordBtn }) => {
+const CookData = ({ transcript, recipes, setRecordBtn, message }) => {
   const [recommend, setRecommend] = useState(null);
 
   //레시피 섞기 함수
@@ -36,7 +36,7 @@ const CookData = ({ transcript, recipes, setRecordBtn }) => {
   return (
     <CookDataWrap>
       {recommend && (
-        <RecommendedRecipe key={recommend.RCP_SEQ} {...recommend} />
+        <RecommendedRecipe key={recommend.RCP_SEQ} {...recommend} message={message} />
       )}
       <RecipeList>
         {/* 각 메뉴정보들을 ItemList으로 보냄*/}

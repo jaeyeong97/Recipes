@@ -93,8 +93,18 @@ const Home = () => {
   const [search, setSearch] = useState(""); // 검색 데이터
   const [currentIndex, setCurrentIndex] = useState(51); // 현재 레시피 인덱스
   const [nextIndex, setNextIndex] = useState(74) // 다음 레시피 인덱스
-  const [recordHelper, setRecordHelper] = useState(true);
+  const [recordHelper, setRecordHelper] = useState(true); // 음성인식 사용 유도 메세지
+  const [message, setMassage] = useState('');
 
+  const commands = [
+    {
+      command: ['추천레시피 알려줘', '오늘의 추천레시피', '추천레시피', '오늘의 추천레시피 알려줘', '춘천', '추천', '레시피 추천해줘'],
+      callback: () => setMassage('추천레시피 명령'),
+      matchInterim: true, // 명령어 인식 즉시 콜백실행
+      isFuzzyMatch: true, // 비슷한 음성도 감지해서 실행
+      fuzzyMatchingThreshold: 0.2
+    },
+  ]
   //음성인식 사용유도 메세지
   useEffect(() => {
     const timer = (setTimeout(() => {
@@ -122,7 +132,7 @@ const Home = () => {
     transcript,
     listening,
     browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  } = useSpeechRecognition({ commands });
 
   // 전체레시피 api 호출
   useEffect(() => {
@@ -190,6 +200,7 @@ const Home = () => {
             transcript={transcript}
             recipes={recipes}
             setRecordBtn={setRecordBtn}
+            message={message}
           />
         </InfiniteScroll>
       )}

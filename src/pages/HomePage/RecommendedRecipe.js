@@ -86,6 +86,7 @@ const RecipeName = styled.span`
   padding: 10px 0;
 `;
 const RecommendedRecipe = ({
+  message,
   ATT_FILE_NO_MK,
   RCP_NM,
   RCP_PAT2,
@@ -151,6 +152,12 @@ const RecommendedRecipe = ({
       document.body.style.overflow = "auto";
     }
   }, [showMenu]);
+
+  useEffect(() => {
+    if (message === '추천레시피 명령') {
+      setShowMenu(true);
+    }
+  }, [message]);
 
   return (
     <RecommendedRecipeItem>

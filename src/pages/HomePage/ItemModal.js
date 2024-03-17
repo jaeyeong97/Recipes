@@ -50,6 +50,7 @@ const ItemModalWrap = styled.div`
       width: 50%;
       display: flex;
       flex-direction: column;
+      padding : 10px 10px 0 0;
     }
   }
 `;
@@ -87,10 +88,12 @@ const Orders = styled.div`
       height: auto;
       object-fit: cover;
       max-width : 250px;
+      max-height : 200px;
       border-radius : 5px;
     }
     span {
       width: 50%;
+      padding : 10px 10px 0 0;
     }
   }
   .tip{
@@ -174,11 +177,11 @@ const ItemModal = ({
           <div className="txt_wrap">
             {RCP_PAT2 && <span>요리종류: {RCP_PAT2}</span>}
             {RCP_WAY2 && <span>조리방법: {RCP_WAY2}</span>}
-            {INFO_WGT && <span>중량(1인분): {INFO_WGT}</span>}
-            {INFO_ENG && <span>열량: {INFO_ENG}</span>}
-            {INFO_CAR && <span>탄수화물: {INFO_CAR}</span>}
-            {INFO_PRO && <span>단백질: {INFO_PRO}</span>}
-            {INFO_FAT && <span>지방: {INFO_FAT}</span>}
+            {INFO_WGT && <span>중량(1인분): {INFO_WGT} g</span>}
+            {INFO_ENG && <span>열량: {INFO_ENG} kcal</span>}
+            {INFO_CAR && <span>탄수화물: {INFO_CAR} g</span>}
+            {INFO_PRO && <span>단백질: {INFO_PRO} g</span>}
+            {INFO_FAT && <span>지방: {INFO_FAT} g</span>}
             {RCP_PARTS_DTLS && <span>재료정보: {RCP_PARTS_DTLS}</span>}
           </div>
         </div>
