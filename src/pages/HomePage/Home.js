@@ -174,7 +174,7 @@ const Home = () => {
     if (message) {
       setRecordBtn(false);
     };
-  }, [message, setRecordBtn]);
+  }, [message]);
 
   // 음성녹음이 지원되지 않는 브라우져일 경우
   if (!browserSupportsSpeechRecognition) {
@@ -208,6 +208,7 @@ const Home = () => {
             recipes={recipes}
             setRecordBtn={setRecordBtn}
             message={message}
+            setMessage={setMessage}
           />
         </InfiniteScroll>
       )}

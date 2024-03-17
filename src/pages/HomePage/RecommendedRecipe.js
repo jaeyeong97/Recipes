@@ -87,6 +87,7 @@ const RecipeName = styled.span`
 `;
 const RecommendedRecipe = ({
   message,
+  setMessage,
   ATT_FILE_NO_MK,
   RCP_NM,
   RCP_PAT2,
@@ -156,8 +157,9 @@ const RecommendedRecipe = ({
   useEffect(() => {
     if (message === '추천레시피 명령') {
       setShowMenu(true);
+      setMessage('');
     }
-  }, [message, setShowMenu]);
+  }, [message, setMessage]);
 
   return (
     <RecommendedRecipeItem>
