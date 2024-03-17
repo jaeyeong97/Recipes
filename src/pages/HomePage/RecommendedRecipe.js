@@ -157,7 +157,7 @@ const RecommendedRecipe = ({
     if (message === '추천레시피 명령') {
       setShowMenu(true);
     }
-  }, [message]);
+  }, [message, setShowMenu]);
 
   return (
     <RecommendedRecipeItem>
