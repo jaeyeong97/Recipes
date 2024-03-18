@@ -98,7 +98,7 @@ const Home = () => {
 
   const commands = [
     {
-      command: ['추천레시피 알려줘', '오늘의 추천레시피', '추천레시피', '오늘의 추천레시피 알려줘', '춘천', '추천', '레시피 추천해줘'],
+      command: ['추천레시피 알려줘', '오늘의 추천레시피', '추천레시피', '오늘의 추천레시피 알려줘', '춘천', '추천', '레시피 추천해줘', '레시피 추천'],
       callback: () => setMessage('추천레시피 명령'),
       matchInterim: true, // 명령어 인식 즉시 콜백실행
       isFuzzyMatch: true, // 비슷한 음성도 감지해서 실행
@@ -229,6 +229,7 @@ const Home = () => {
       {recordBtn ? (
         <SpeechBox>
           <p>{listening ? "듣고있어요..." : "검색 결과가 없거나 마이크가 연결되어 있지 않습니다."}</p>
+          <p style={{ marginTop: "20px" }}>{listening ? '"레시피 추천해줘" 혹은 찾고싶은 레시피명을 말해보세요!' : ""}</p>
           {listening && <p>{transcript}</p>}
         </SpeechBox>
       ) : null}
