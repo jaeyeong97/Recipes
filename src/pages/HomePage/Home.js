@@ -127,7 +127,6 @@ const Home = () => {
     setSearch("");
   };
 
-
   const {
     transcript,
     listening,

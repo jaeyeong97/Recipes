@@ -10,7 +10,7 @@ const RecipeList = styled.div`
   justify-content: center;
 `;
 const CookData = ({ transcript, recipes, setRecordBtn, message, setMessage }) => {
-  const [recommend, setRecommend] = useState(null);
+  const [recommend, setRecommend] = useState(null); // 섞인 레시피의 첫번째 인덱스값에 있는 데이터
 
   //레시피 섞기 함수
   const doShuffle = (recipes) => {
@@ -30,7 +30,7 @@ const CookData = ({ transcript, recipes, setRecordBtn, message, setMessage }) =>
   }, []);
 
   if (!recommend) {
-    return <p>Loading...</p>;
+    return <p>잠시만 기다려주세요.</p>;
   }
 
   return (

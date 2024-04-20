@@ -130,8 +130,8 @@ const ItemList = ({
 
   // 음성명령 transcript가 레시피이름이랑 같을 경우 모달 열리게
   useEffect(() => {
-    const scr = transcript.replace(/\s/g, ""); // 띄어쓰기 제거
-    const rc = RCP_NM.replace(/\s/g, ""); // 레시피 이름에서 띄어쓰기 제거
+    const scr = transcript.replace(/\s/g, ""); // 음성명령어 내 모든 공백 제거
+    const rc = RCP_NM.replace(/\s/g, ""); // 레시피 이름에서 모든 공백 제거
     if (scr === rc) {
       setShowMenu(true);
       setRecordBtn(false);
