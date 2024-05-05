@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 const ItemModalContainer = styled.div`
@@ -108,7 +109,7 @@ const Orders = styled.div`
     backdrop-filter: blur(5px);
   }
 `;
-const ItemModal = ({
+const ItemModal = React.memo(({
   RCP_NM,
   ATT_FILE_NO_MK,
   RCP_PAT2,
@@ -317,6 +318,6 @@ const ItemModal = ({
       </ItemModalWrap>
     </ItemModalContainer>
   );
-};
+});
 
 export default ItemModal;

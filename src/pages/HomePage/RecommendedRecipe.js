@@ -2,27 +2,26 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ItemModal from "./ItemModal";
 const RecommendedRecipeItem = styled.div`
-  margin-bottom : 50px;
+  margin-bottom : 30px;
 `;
 const RecoWrap = styled.div`
   width: calc(100% - 40px);
   margin: 0 auto;
   padding: 20px;
-  max-width : 600px;
+  max-width : 660px;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);
-  
   @media (min-width: 768px) {
-    padding: 40px;
+    padding: 0 40px 40px 40px;
   }
 `;
 const Title = styled.h2`
   text-align: center;
   line-height: 1em;
-  margin-bottom: 15px;
+  padding : 20px 0;
   font-size: 25px;
 `;
 const RecoInner = styled.div`

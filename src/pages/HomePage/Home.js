@@ -133,30 +133,26 @@ const Home = () => {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition({ commands });
 
-  // 전체레시피 api 호출
+  // 레시피 API 호출
   useEffect(() => {
-    const fetchData = async () => {
+    const getData = async () => {
+      const url = `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/${currentIndex}/${nextIndex}/`;
       try {
-        const response = await axios.get(
-          `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/${currentIndex}/${nextIndex}/`
-        );
-        setRecipes((prevRecipes) => {
-          if (prevRecipes === null) {
-            return response.data.COOKRCP01.row;
-          }
-          return [...prevRecipes, ...response.data.COOKRCP01.row];
-        });
+        const res = await axios.get(url);
+        const newRecipes = res.data.COOKRCP01.row;
+        setRecipes((prevRecipes) => (prevRecipes === null ? newRecipes : [...prevRecipes, ...newRecipes]));
+        // 컴포넌트가 초기 렌더링(null)되었을 때 새로운 레시피, null이 아닌 경우 이전 레시피와 새로운 레시피 배열 합쳐서 상태 업데이트
       } catch (error) {
-        console.error("api 호출 오류:", error.message);
+        console.error("API 호출 오류:", error.message);
       }
     };
-    fetchData();
+    getData();
   }, [currentIndex, nextIndex]);
-  const fetchMoreData = () => {
+
+  const getMoreData = () => {
     setCurrentIndex((prevIndex) => prevIndex + 24);
     setNextIndex((prevNextIndex) => prevNextIndex + 24);
   };
-
 
   // 음성녹음 버튼 토글
   const handleRecord = () => {
@@ -197,7 +193,7 @@ const Home = () => {
       {changePage ? null : (
         <InfiniteScroll
           dataLength={recipes.length}
-          next={fetchMoreData}
+          next={getMoreData}
           hasMore={true}
           scrollThreshold={1}
           loader={<LoadingList />}
