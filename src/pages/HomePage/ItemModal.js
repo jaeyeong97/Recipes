@@ -1,46 +1,208 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import Header from "../../components/Header";
 
+const FavAni = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 const ItemModalContainer = styled.div`
   position : relative;
-`;
+  `;
 const ItemModalWrap = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 0 20px;
-  width: 100%;
-  color: #fff;
   overflow-y: scroll;
-  background-image: url(/assets/Modal-img.png);
-  background-size: cover;
+  background-color: #fff;
   z-index: 10;
-  .title {
-    padding: 20px 0;
-    text-align: center;
-    font-size: 22px;
-    line-height: 1em;
-  }
-  .m_wrap {
-    display: flex;
-    justify-content : space-between;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-
+  `;
+const InnerWidth = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 180px auto 0 auto;
     .img_wrap {
-      width: 45%;
-      border-radius: 5px;
-      overflow: hidden;
+      width: 100%;
+      img {
+        width: 100%;
+        height: auto;
+        max-height: 600px;
+        object-fit: cover;
+      }
+    }
+    .title_wrap {
+      display: flex;
+      justify-content: space-between;
+      margin: 50px 10px;
+      @media (min-width: 768px) {
+        margin: 50px 0;
+      }
+      .wrap {
+        .title {
+          font-family: "BookkMyungjo-Bd", "Noto Sans KR", sans-serif;
+          margin-bottom: 15px;
+          font-size: 25px;
+          color: #000;
+        }
+        span {
+          font-size: 14px;
+          color: rgb(117, 117, 117);
+        }
+      }
+      .bookmark {
+        cursor: pointer;
+        user-select: none;
+        span {
+          font-size: 30px;
+        }
+        .added {
+          color: red;
+          font-variation-settings: "FILL" 1;
+          animation : ${FavAni} 0.4s;
+        }
+      }
+      .alertFav { 
+        position: fixed;
+        bottom : 50px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        padding: 10px;
+        color: #fff;
+        border-radius: 5px;
+        border: 1px solid #fff;
+        background-color: rgba(44, 108, 21, 0.8);
+        z-index: 10;
+      }
+    }
+    .comments {
+      margin: 30px 10px;
+      font-size: 12px;
+      color: rgb(117, 117, 117);
+      text-decoration: underline;
+      @media (min-width: 768px) {
+        margin: 30px 0;
+      }
+    }
+    .tip_wrap {
+      border-top: 1px solid rgb(224, 224, 224);
+      padding: 30px 0;
+      margin: 0 10px;
+      @media (min-width: 768px) {
+        margin: 0;
+      }
+      .tip_circle_wrap {
+        display: flex;
+        margin-bottom: 15px;
+        .tip_circle {
+          display: flex;
+          width: 50px;
+          height: 50px;
+          min-width: 50px;
+          border-radius: 50%;
+          justify-content: center;
+          align-items: center;
+          background-image: url(/assets/rf.png);
+          background-size: 100% 100%;
+        }
+        .tip_title {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-left: 5px;
+          span {
+            font-size: 12px;
+            font-weight: 600;
+            color: #000;
+          }
+        }
+      }
+      .tip_txt {
+        .tip {
+          color: rgb(117, 117, 117);
+        }
+      }
+    }
+`;
+const Nutrients = styled.section`
+    margin: 50px 10px;
+    @media (min-width: 768px) {
+      margin: 50px 0;
+    }
+    .s_title {
+      font-size : 18px;
+      font-weight: 600;
+      color: #000;
+      padding-bottom: 5px;
+      border-bottom: 2px solid rgba(44, 108, 21, 0.5);
+    }
+    .flex {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      span {
+        font-size: 14px;
+        color: rgb(117, 117, 117);
+      }
+      .bold {
+        color: #000;
+        font-weight: 600;
+      }
+    }
+`;
+const Ingredients = styled.section`
+margin: 50px 10px;
+@media (min-width: 768px) {
+  margin: 50px 0;
+}
+.s_title {
+  font-size : 18px;
+  font-weight: 600;
+  color: #000;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(44, 108, 21, 0.5);
+}
+span {
+  display: block;
+  margin: 5px 0;
+  line-height: 1.8em;
+  color: #000;
+  font-weight: 600;
+}
+`;
+const Recipe = styled.section`
+  margin: 50px 0;
+  .s_title {
+    font-size : 18px;
+    font-weight: 600;
+    color: #000;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgba(44, 108, 21, 0.5);
+    margin: 0 10px 20px 10px;
+    @media (min-width: 768px) {
+      margin: 0 0 20px 0;
+    }
+  }
+  .box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 80px;
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+    .img_wrap {
+      @media (min-width: 768px) {
+        width: 50%;
+      }
       img {
         width: 100%;
         height: auto;
@@ -48,73 +210,58 @@ const ItemModalWrap = styled.div`
       }
     }
     .txt_wrap {
-      width: 50%;
       display: flex;
       flex-direction: column;
-      padding : 10px 10px 0 0;
+      margin: 0 10px;
+      @media (min-width: 768px) {
+        width: calc(50% + 20px);
+        padding-left: 20px;
+        margin: 0;
+      }
+      .step {
+        padding: 30px 0 10px 0;
+        font-family: "BookkMyungjo-Bd", "Noto Sans KR", sans-serif;
+        font-size: 20px;
+        color: #000;
+        border-bottom: 1px solid rgb(224, 224, 224);
+        @media (min-width: 768px) {
+          padding: 5px 0;
+        }
+      }
+      span {
+        padding: 15px 0;
+        color: rgb(117, 117, 117);
+      }
     }
   }
 `;
 const Close = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 30px;
-  height: 30px;
-  background-image: url(/assets/close.png);
-  background-size: cover;
+  top: -45px;
+  left: 4px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-`;
-const Orders = styled.div`
-  max-width: 600px;
-  margin : 0 auto;
-  .s_title {
-    margin: 70px 0 30px 0;
-    font-size: 25px;
-    text-align: center;
+  .material-symbols-outlined {
+    font-variation-settings: "wght" 300;
   }
-  .box {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-    margin : 20px 0;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    img {
-      width: 45%;
-      height: auto;
-      object-fit: cover;
-      max-width : 250px;
-      max-height : 200px;
-      border-radius : 5px;
-    }
-    span {
-      width: 50%;
-      padding : 10px 10px 0 0;
-    }
+  span {
+    font-size: 26px;
+    color: #000;
   }
-  .tip{
-    display : inline-block;
-    width : 100%;
-    padding: 10px;
-    margin-bottom : 50px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+  .back_txt {
+    font-size: 16px;
+  }
+  @media screen and (min-width: 600px) {
+    left: -5px;
   }
 `;
 const ItemModal = React.memo(({
+  RCP_SEQ,
   RCP_NM,
   ATT_FILE_NO_MK,
   RCP_PAT2,
   RCP_WAY2,
-  INFO_WGT,
   INFO_ENG,
   INFO_CAR,
   INFO_PRO,
@@ -126,195 +273,197 @@ const ItemModal = React.memo(({
   MANUAL04,
   MANUAL05,
   MANUAL06,
-  MANUAL07,
-  MANUAL08,
-  MANUAL09,
-  MANUAL10,
-  MANUAL11,
-  MANUAL12,
-  MANUAL13,
-  MANUAL14,
-  MANUAL15,
-  MANUAL16,
-  MANUAL17,
-  MANUAL18,
-  MANUAL19,
-  MANUAL20,
   MANUAL_IMG01,
   MANUAL_IMG02,
   MANUAL_IMG03,
   MANUAL_IMG04,
   MANUAL_IMG05,
   MANUAL_IMG06,
-  MANUAL_IMG07,
-  MANUAL_IMG08,
-  MANUAL_IMG09,
-  MANUAL_IMG10,
-  MANUAL_IMG11,
-  MANUAL_IMG12,
-  MANUAL_IMG13,
-  MANUAL_IMG14,
-  MANUAL_IMG15,
-  MANUAL_IMG16,
-  MANUAL_IMG17,
-  MANUAL_IMG18,
-  MANUAL_IMG19,
-  MANUAL_IMG20,
   RCP_NA_TIP,
-  showMenu,
   setShowMenu,
+  handleSearch,
+  handleFavorite,
+  handleTitle,
+  handleFavoriteFunction,
+  isFavorite,
 }) => {
+
   const handleClose = () => {
-    setShowMenu(!showMenu);
+    setShowMenu(false);
   };
+
+  const handleFavoriteClick = () => {
+    handleFavoriteFunction({
+      RCP_SEQ,
+      RCP_NM,
+      ATT_FILE_NO_MK,
+      RCP_PAT2,
+      RCP_WAY2,
+      INFO_ENG,
+      INFO_CAR,
+      INFO_PRO,
+      INFO_FAT,
+      RCP_PARTS_DTLS,
+      MANUAL01,
+      MANUAL02,
+      MANUAL03,
+      MANUAL04,
+      MANUAL05,
+      MANUAL06,
+      MANUAL_IMG01,
+      MANUAL_IMG02,
+      MANUAL_IMG03,
+      MANUAL_IMG04,
+      MANUAL_IMG05,
+      MANUAL_IMG06,
+      RCP_NA_TIP
+    });
+    // 즐겨찾기 알람 표시
+    setFavAlert(true);
+
+    // 3초 후에 즐겨찾기 알람 숨기기
+    setTimeout(() => {
+      setFavAlert(false);
+    }, 3000);
+  };
+
+  const [favAlert, setFavAlert] = useState(false); // 즐겨찾기 모달 알람
+
   return (
     <ItemModalContainer>
       <ItemModalWrap>
-        <span className="title">{RCP_NM}</span>
-        <div className="m_wrap">
+        <Header handleTitle={handleTitle} handleSearch={handleSearch} handleFavorite={handleFavorite} />
+        <InnerWidth>
           <div className="img_wrap">
             <img src={ATT_FILE_NO_MK} alt="음식 이미지" />
           </div>
-          <div className="txt_wrap">
-            {RCP_PAT2 && <span>요리종류: {RCP_PAT2}</span>}
-            {RCP_WAY2 && <span>조리방법: {RCP_WAY2}</span>}
-            {INFO_WGT && <span>중량(1인분): {INFO_WGT} g</span>}
-            {INFO_ENG && <span>열량: {INFO_ENG} kcal</span>}
-            {INFO_CAR && <span>탄수화물: {INFO_CAR} g</span>}
-            {INFO_PRO && <span>단백질: {INFO_PRO} g</span>}
-            {INFO_FAT && <span>지방: {INFO_FAT} g</span>}
-            {RCP_PARTS_DTLS && <span>재료정보: {RCP_PARTS_DTLS}</span>}
+          <div className="title_wrap">
+            <div className="wrap">
+              <h2 className="title">{RCP_NM}</h2>
+              <span>#{RCP_PAT2}</span>
+              <span>#{RCP_WAY2}</span>
+            </div>
+            <div className="bookmark" onClick={handleFavoriteClick}>
+              <span className={`material-symbols-outlined ${isFavorite ? "added" : ""}`}>
+                favorite
+              </span>
+            </div>
+            {favAlert ? <div className="alertFav">
+              {isFavorite ? "즐겨찾기에 추가되었어요." : "즐겨찾기가 해제되었어요."}
+            </div> : ""}
           </div>
-        </div>
-        <Orders>
-          <div className="s_title">만드는 순서</div>
-          {MANUAL01 && MANUAL_IMG01 && (
-            <div className="box">
-              <span>{MANUAL01}</span>
-              <img src={MANUAL_IMG01} alt="조리법01" />
+          <div className="comments">댓글보기</div>
+          <div className="tip_wrap">
+            <div className="tip_circle_wrap">
+              <div className="tip_circle"></div>
+              <div className="tip_title">
+                <span>레시피 파인더</span>
+                <span>저감 조리법 tip</span>
+              </div>
             </div>
-          )}
-          {MANUAL02 && MANUAL_IMG02 && (
-            <div className="box">
-              <span>{MANUAL02}</span>
-              <img src={MANUAL_IMG02} alt="조리법02" />
+            <div className="tip_txt">
+              {RCP_NA_TIP && <span className="tip">{RCP_NA_TIP}</span>}
             </div>
-          )}
-          {MANUAL03 && MANUAL_IMG03 && (
-            <div className="box">
-              <span>{MANUAL03}</span>
-              <img src={MANUAL_IMG03} alt="조리법03" />
+          </div>
+          <Nutrients>
+            <h3 className="s_title">영양성분</h3>
+            <div className="flex">
+              <span className="bold">열량</span>
+              {INFO_ENG && <span>{INFO_ENG}kcal</span>}
             </div>
-          )}
-          {MANUAL04 && MANUAL_IMG04 && (
-            <div className="box">
-              <span>{MANUAL04}</span>
-              <img src={MANUAL_IMG04} alt="조리법04" />
+            <div className="flex">
+              <span className="bold">탄수화물</span>
+              {INFO_CAR && <span>{INFO_CAR}g</span>}
             </div>
-          )}
-          {MANUAL05 && MANUAL_IMG05 && (
-            <div className="box">
-              <span>{MANUAL05}</span>
-              <img src={MANUAL_IMG05} alt="조리법05" />
+            <div className="flex">
+              <span className="bold">단백질</span>
+              {INFO_PRO && <span>{INFO_PRO}g</span>}
             </div>
-          )}
-          {MANUAL06 && MANUAL_IMG06 && (
-            <div className="box">
-              <span>{MANUAL06}</span>
-              <img src={MANUAL_IMG06} alt="조리법06" />
+            <div className="flex">
+              <span className="bold">지방</span>
+              {INFO_FAT && <span>{INFO_FAT}g</span>}
             </div>
-          )}
-          {MANUAL07 && MANUAL_IMG07 && (
-            <div className="box">
-              <span>{MANUAL07}</span>
-              <img src={MANUAL_IMG07} alt="조리법07" />
-            </div>
-          )}
-          {MANUAL08 && MANUAL_IMG08 && (
-            <div className="box">
-              <span>{MANUAL08}</span>
-              <img src={MANUAL_IMG08} alt="조리법08" />
-            </div>
-          )}
-          {MANUAL09 && MANUAL_IMG09 && (
-            <div className="box">
-              <span>{MANUAL09}</span>
-              <img src={MANUAL_IMG09} alt="조리법09" />
-            </div>
-          )}
-          {MANUAL10 && MANUAL_IMG10 && (
-            <div className="box">
-              <span>{MANUAL10}</span>
-              <img src={MANUAL_IMG10} alt="조리법10" />
-            </div>
-          )}
-          {MANUAL11 && MANUAL_IMG11 && (
-            <div className="box">
-              <span>{MANUAL11}</span>
-              <img src={MANUAL_IMG11} alt="조리법11" />
-            </div>
-          )}
-          {MANUAL12 && MANUAL_IMG12 && (
-            <div className="box">
-              <span>{MANUAL12}</span>
-              <img src={MANUAL_IMG12} alt="조리법12" />
-            </div>
-          )}
-          {MANUAL13 && MANUAL_IMG13 && (
-            <div className="box">
-              <span>{MANUAL13}</span>
-              <img src={MANUAL_IMG13} alt="조리법13" />
-            </div>
-          )}
-          {MANUAL14 && MANUAL_IMG14 && (
-            <div className="box">
-              <span>{MANUAL14}</span>
-              <img src={MANUAL_IMG14} alt="조리법14" />
-            </div>
-          )}
-          {MANUAL15 && MANUAL_IMG15 && (
-            <div className="box">
-              <span>{MANUAL15}</span>
-              <img src={MANUAL_IMG15} alt="조리법15" />
-            </div>
-          )}
-          {MANUAL16 && MANUAL_IMG16 && (
-            <div className="box">
-              <span>{MANUAL16}</span>
-              <img src={MANUAL_IMG16} alt="조리법16" />
-            </div>
-          )}
-          {MANUAL17 && MANUAL_IMG17 && (
-            <div className="box">
-              <span>{MANUAL17}</span>
-              <img src={MANUAL_IMG17} alt="조리법17" />
-            </div>
-          )}
-          {MANUAL18 && MANUAL_IMG18 && (
-            <div className="box">
-              <span>{MANUAL18}</span>
-              <img src={MANUAL_IMG18} alt="조리법18" />
-            </div>
-          )}
-          {MANUAL19 && MANUAL_IMG19 && (
-            <div className="box">
-              <span>{MANUAL19}</span>
-              <img src={MANUAL_IMG19} alt="조리법19" />
-            </div>
-          )}
-          {MANUAL20 && MANUAL_IMG20 && (
-            <div className="box">
-              <span>{MANUAL20}</span>
-              <img src={MANUAL_IMG20} alt="조리법20" />
-            </div>
-          )}
-          {RCP_NA_TIP && <span className="tip">저감 조리법 TIP: {RCP_NA_TIP}</span>}
-        </Orders>
-        <Close
-          onClick={() => {
-            handleClose();
-          }}
-        ></Close>
+          </Nutrients>
+          <Ingredients>
+            <h3 className="s_title">재료</h3>
+            {RCP_PARTS_DTLS && <span>재료정보: {RCP_PARTS_DTLS}</span>}
+          </Ingredients>
+          <Recipe>
+            <h3 className="s_title">레시피</h3>
+            {MANUAL01 && MANUAL_IMG01 && (
+              <div className="box">
+                <div className="img_wrap">
+                  <img src={MANUAL_IMG01} alt="조리법01" />
+                </div>
+                <div className="txt_wrap">
+                  <span className="step">Step1</span>
+                  <span>{MANUAL01}</span>
+                </div>
+              </div>
+            )}
+            {MANUAL02 && MANUAL_IMG02 && (
+              <div className="box">
+                <div className="img_wrap">
+                  <img src={MANUAL_IMG02} alt="조리법02" />
+                </div>
+                <div className="txt_wrap">
+                  <span className="step">Step2</span>
+                  <span>{MANUAL02}</span>
+                </div>
+              </div>
+            )}
+            {MANUAL03 && MANUAL_IMG03 && (
+              <div className="box">
+                <div className="img_wrap">
+                  <img src={MANUAL_IMG03} alt="조리법03" />
+                </div>
+                <div className="txt_wrap">
+                  <span className="step">Step3</span>
+                  <span>{MANUAL03}</span>
+                </div>
+              </div>
+            )}
+            {MANUAL04 && MANUAL_IMG04 && (
+              <div className="box">
+                <div className="img_wrap">
+                  <img src={MANUAL_IMG04} alt="조리법04" />
+                </div>
+                <div className="txt_wrap">
+                  <span className="step">Step4</span>
+                  <span>{MANUAL04}</span>
+                </div>
+              </div>
+            )}
+            {MANUAL05 && MANUAL_IMG05 && (
+              <div className="box">
+                <div className="img_wrap">
+                  <img src={MANUAL_IMG05} alt="조리법05" />
+                </div>
+                <div className="txt_wrap">
+                  <span className="step">Step5</span>
+                  <span>{MANUAL05}</span>
+                </div>
+              </div>
+            )}
+            {MANUAL06 && MANUAL_IMG06 && (
+              <div className="box">
+                <div className="img_wrap">
+                  <img src={MANUAL_IMG06} alt="조리법06" />
+                </div>
+                <div className="txt_wrap">
+                  <span className="step">Step6</span>
+                  <span>{MANUAL06}</span>
+                </div>
+              </div>
+            )}
+          </Recipe>
+          <Close onClick={() => { handleClose() }}>
+            <span className="material-symbols-outlined">
+              arrow_back
+            </span>
+            <span className="back_txt">뒤로가기</span>
+          </Close>
+        </InnerWidth>
       </ItemModalWrap>
     </ItemModalContainer>
   );

@@ -1,20 +1,30 @@
 @charset "utf-8";
 @font-face {
-  font-family: 'S-CoreDream-3Light';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+  font-family: "S-CoreDream-3Light";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff")
+    format("woff");
   font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "BookkMyungjo-Bd";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2")
+    format("woff2");
+  font-weight: 700;
   font-style: normal;
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #efefef;
 }
 body {
   font-family: "S-CoreDream-3Light", "Noto Sans KR", sans-serif;
   font-size: 14px;
   line-height: 20px;
+}
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 ul,
 ol {
@@ -31,7 +41,7 @@ input {
   font-family: "S-CoreDream-3Light", "Noto Sans KR", sans-serif;
 }
 button {
-  border: 0;
+  border: none;
   background-color: transparent;
   vertical-align: top;
   cursor: pointer;

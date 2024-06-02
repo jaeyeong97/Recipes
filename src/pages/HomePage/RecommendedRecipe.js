@@ -1,149 +1,223 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ItemModal from "./ItemModal";
-const RecommendedRecipeItem = styled.div`
-  margin-bottom : 30px;
-`;
-const RecoWrap = styled.div`
-  width: calc(100% - 40px);
-  margin: 0 auto;
-  padding: 20px;
-  max-width : 660px;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(5px);
-  @media (min-width: 768px) {
-    padding: 0 40px 40px 40px;
-  }
-`;
-const Title = styled.h2`
-  text-align: center;
-  line-height: 1em;
-  padding : 20px 0;
-  font-size: 25px;
-`;
-const RecoInner = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
 
-  @media (min-width: 768px) {
-    flex-direction: row;
-    align-items: initial;
+const RecommendedRecipeWrap = styled.div`
+  .section_title_wrap {
+    font-family: "BookkMyungjo-Bd", "Noto Sans KR", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 100px 0 30px 0;
+
+    .section_title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+      &:before {
+        content: "|";
+        font-weight: 400;
+        font-size: 14px;
+        margin: 0 10px;
+      }
+      &:after {
+        content: "|";
+        font-weight: 400;
+        font-size: 14px;
+        margin: 0 10px;
+      }
+    }
+
+    .s_title {
+      font-size: 14px;
+      color: #222;
+    }
+  }
+
+  .recommended_recipes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    grid-template-areas:
+      "img1 img1"
+      "img2 img3"
+      "img4 img4";
+  }
+  
+  @media (min-width: 1024px) {
+    .section_title_wrap {
+      .section_title {
+        font-size: 25px;
+        margin-bottom: 25px;
+      }
+      .s_title {
+        font-size: 17px;
+      }
+    }
+
+    .recommended_recipes {
+      grid-template-areas:
+        "img1 img2 img3"
+        "img1 img4 img4";
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    padding : 0 20px;
   }
 `;
-const RecoImg = styled.div`
-  width: 100%;
-  border-radius: 5px;
-  overflow: hidden;
-  cursor: pointer;
-  max-width: 250px;
+
+const Recipe = styled.div`
+font-family: "BookkMyungjo-Bd", "Noto Sans KR", sans-serif;
+  .wrap {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
   img {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
-    transition: 0.2s;
   }
-  &:hover img {
-    transform: scale(1.1);
-    filter: brightness(0.7);
+  &:nth-child(1) .wrap .img_txt,
+  &:nth-child(4) .wrap .img_txt {
+    position: absolute;
+    bottom: 40px;
+    left: 30px;
+    span {
+      font-size: 28px;
+      font-weight: 600;
+      color: #fff;
+    }
   }
-  &:hover::after {
-    content: "";
+  &:nth-child(2) .wrap .img_txt,
+  &:nth-child(3) .wrap .img_txt {
+    display: none;
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
-    transform: translate(0, -50%);
     text-align: center;
+    transform: translate(0, -50%);
+    span {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
   }
 
-  @media (min-width: 768px) {
-    width: 45%;
-    max-width: initial;
+  &:nth-child(1) .wrap img {
+    max-height: 450px;
   }
-`;
-const RecoText = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  span {
-    margin: 3px 0;
+  &:nth-child(2) .wrap img {
+    height: 350px;
   }
-  .dtls{
-    margin : 5px 0 10px 20px;
+  &:nth-child(3) .wrap img {
+    height: 350px;
   }
-  @media (min-width: 768px) {
-    width: 50%;
+  &:nth-child(4) .wrap img {
+    max-height: 450px;
   }
-`;
-const RecipeName = styled.span`
-  font-size: 18px;
-  padding: 10px 0;
+  &:nth-child(1) {
+    grid-area: img1;
+  }
+  &:nth-child(2) {
+    grid-area: img2;
+  }
+  &:nth-child(3) {
+    grid-area: img3;
+  }
+  &:nth-child(4) {
+    grid-area: img4;
+  }
+  &:nth-child(1) .wrap,
+  &:nth-child(4) .wrap {
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.2);
+    }
+  }
+  &:nth-child(2) .wrap:hover,
+  &:nth-child(3) .wrap:hover {
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+  }
+  &:nth-child(2) .wrap:hover .img_txt,
+  &:nth-child(3) .wrap:hover .img_txt {
+    display: block;
+  }
+  @media (min-width: 1024px) {
+    &:nth-child(1) .wrap img {
+      height: 621px;
+      max-height: initial;
+    }
+    &:nth-child(2) .wrap img {
+      height: 300px;
+    }
+    &:nth-child(3) .wrap img {
+      height: 300px;
+    }
+    &:nth-child(4) .wrap img {
+      height: 300px;
+      max-height: initial;
+      object-position: 100% 90%;
+    }
+  }
 `;
 const RecommendedRecipe = ({
-  message,
-  setMessage,
-  ATT_FILE_NO_MK,
-  RCP_NM,
-  RCP_PAT2,
-  RCP_WAY2,
-  INFO_WGT,
-  INFO_ENG,
-  INFO_CAR,
-  INFO_PRO,
-  INFO_FAT,
-  RCP_PARTS_DTLS,
-  MANUAL01,
-  MANUAL02,
-  MANUAL03,
-  MANUAL04,
-  MANUAL05,
-  MANUAL06,
-  MANUAL07,
-  MANUAL08,
-  MANUAL09,
-  MANUAL10,
-  MANUAL11,
-  MANUAL12,
-  MANUAL13,
-  MANUAL14,
-  MANUAL15,
-  MANUAL16,
-  MANUAL17,
-  MANUAL18,
-  MANUAL19,
-  MANUAL20,
-  MANUAL_IMG01,
-  MANUAL_IMG02,
-  MANUAL_IMG03,
-  MANUAL_IMG04,
-  MANUAL_IMG05,
-  MANUAL_IMG06,
-  MANUAL_IMG07,
-  MANUAL_IMG08,
-  MANUAL_IMG09,
-  MANUAL_IMG10,
-  MANUAL_IMG11,
-  MANUAL_IMG12,
-  MANUAL_IMG13,
-  MANUAL_IMG14,
-  MANUAL_IMG15,
-  MANUAL_IMG16,
-  MANUAL_IMG17,
-  MANUAL_IMG18,
-  MANUAL_IMG19,
-  MANUAL_IMG20,
-  RCP_NA_TIP,
+  recommendedRecipes,
+  setShowSearch,
+  setFavorite,
+  handleFavoriteFunction,
+  favoriteArr,
 }) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const handleMenuClick = () => {
-    setShowMenu(!showMenu);
+
+  const [showMenu, setShowMenu] = useState(false); // 추천레시피 모달 표시
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  // 헤더 검색아이콘 클릭
+  const handleSearch = () => {
+    setShowMenu(false);
+    setFavorite(false);
+    setShowSearch(true);
+    window.scrollTo(0, 0);
   };
 
+  // 헤더 로고 클릭
+  const handleTitle = () => {
+    setShowSearch(false);
+    setShowMenu(false);
+    setFavorite(false);
+    window.scrollTo(0, 0);
+  }
+
+  // 헤더 즐겨찾기 클릭
+  const handleFavorite = () => {
+    setShowSearch(false);
+    setShowMenu(false);
+    setFavorite(true);
+    window.scrollTo(0, 0);
+  };
+
+  const handleMenuClick = (recipe) => {
+    setSelectedRecipe(recipe);
+    setShowMenu(true);
+  };
   //모달 열릴 시 스크롤 설정
   useEffect(() => {
     if (showMenu) {
@@ -153,92 +227,38 @@ const RecommendedRecipe = ({
     }
   }, [showMenu]);
 
-  useEffect(() => {
-    if (message === '추천레시피 명령') {
-      setShowMenu(true);
-      setMessage('');
-    }
-  }, [message, setMessage]);
+  const isFavorite = selectedRecipe && favoriteArr.some(fav => fav.RCP_SEQ === selectedRecipe.RCP_SEQ);
 
   return (
-    <RecommendedRecipeItem>
-      <RecoWrap>
-        <Title> 👩‍🍳추천 레시피👨‍🍳</Title>
-        <RecoInner>
-          <RecoImg>
-            <img
-              src={ATT_FILE_NO_MK}
-              alt="음식 이미지"
-              onClick={() => handleMenuClick()}
-            />
-          </RecoImg>
-          <RecoText>
-            <RecipeName>{RCP_NM}</RecipeName>
-            <span>•기본재료</span>
-            <span className="dtls">{RCP_PARTS_DTLS}</span>
-            <span>•조리방법 : {RCP_WAY2}</span>
-            <span>•요리종류 : {RCP_PAT2}</span>
-          </RecoText>
-        </RecoInner>
-      </RecoWrap>
-      {showMenu && (
+    <RecommendedRecipeWrap>
+      <div className="section_title_wrap">
+        <h2 className="section_title">RECIPES FOR YOU</h2>
+        <h3 className="s_title">추천드리는 레시피를 둘러보세요.</h3>
+      </div>
+      <div className="recommended_recipes">
+        {recommendedRecipes.map((recipe) => (
+          <Recipe key={recipe.RCP_SEQ} onClick={() => handleMenuClick(recipe)}>
+            <div className="wrap">
+              <img src={recipe.ATT_FILE_NO_MK} alt={recipe.RCP_NM} />
+              <div className="img_txt">
+                <span>{recipe.RCP_NM}</span>
+              </div>
+            </div>
+          </Recipe>
+        ))}
+      </div>
+      {showMenu && selectedRecipe && (
         <ItemModal
-          RCP_NM={RCP_NM}
-          ATT_FILE_NO_MK={ATT_FILE_NO_MK}
-          RCP_PAT2={RCP_PAT2}
-          RCP_WAY2={RCP_WAY2}
-          INFO_WGT={INFO_WGT}
-          INFO_ENG={INFO_ENG}
-          INFO_CAR={INFO_CAR}
-          INFO_PRO={INFO_PRO}
-          INFO_FAT={INFO_FAT}
-          RCP_PARTS_DTLS={RCP_PARTS_DTLS}
-          MANUAL01={MANUAL01}
-          MANUAL02={MANUAL02}
-          MANUAL03={MANUAL03}
-          MANUAL04={MANUAL04}
-          MANUAL05={MANUAL05}
-          MANUAL06={MANUAL06}
-          MANUAL07={MANUAL07}
-          MANUAL08={MANUAL08}
-          MANUAL09={MANUAL09}
-          MANUAL10={MANUAL10}
-          MANUAL11={MANUAL11}
-          MANUAL12={MANUAL12}
-          MANUAL13={MANUAL13}
-          MANUAL14={MANUAL14}
-          MANUAL15={MANUAL15}
-          MANUAL16={MANUAL16}
-          MANUAL17={MANUAL17}
-          MANUAL18={MANUAL18}
-          MANUAL19={MANUAL19}
-          MANUAL20={MANUAL20}
-          MANUAL_IMG01={MANUAL_IMG01}
-          MANUAL_IMG02={MANUAL_IMG02}
-          MANUAL_IMG03={MANUAL_IMG03}
-          MANUAL_IMG04={MANUAL_IMG04}
-          MANUAL_IMG05={MANUAL_IMG05}
-          MANUAL_IMG06={MANUAL_IMG06}
-          MANUAL_IMG07={MANUAL_IMG07}
-          MANUAL_IMG08={MANUAL_IMG08}
-          MANUAL_IMG09={MANUAL_IMG09}
-          MANUAL_IMG10={MANUAL_IMG10}
-          MANUAL_IMG11={MANUAL_IMG11}
-          MANUAL_IMG12={MANUAL_IMG12}
-          MANUAL_IMG13={MANUAL_IMG13}
-          MANUAL_IMG14={MANUAL_IMG14}
-          MANUAL_IMG15={MANUAL_IMG15}
-          MANUAL_IMG16={MANUAL_IMG16}
-          MANUAL_IMG17={MANUAL_IMG17}
-          MANUAL_IMG18={MANUAL_IMG18}
-          MANUAL_IMG19={MANUAL_IMG19}
-          MANUAL_IMG20={MANUAL_IMG20}
-          RCP_NA_TIP={RCP_NA_TIP}
-          showMenu={showMenu}
+          {...selectedRecipe}
           setShowMenu={setShowMenu}
+          handleSearch={handleSearch}
+          handleFavorite={handleFavorite}
+          handleTitle={handleTitle}
+          handleFavoriteFunction={handleFavoriteFunction}
+          isFavorite={isFavorite}
         />
       )}
-    </RecommendedRecipeItem>
+    </RecommendedRecipeWrap>
   );
 };
 
