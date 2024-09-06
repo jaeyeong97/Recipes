@@ -16,25 +16,25 @@ const LoadingWrap = styled.div`
   height: 100vh;
   background-color: #fff;
 `;
-const LoadingTitle = styled.span`
+const LoadingTitle = styled.div`
   position: absolute;
-  top: -50px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 25px;
-  font-weight: 600;
-  color: #222;
-`;
-const LoadingTxt = styled.span`
-  position: absolute;
-  bottom: -50px;
-  left: 10px;
-  width: 100%;
-  text-align: center;
+  top: 40%;
+  left: 50%;
+  transform : translate(-50%, -50%);
   font-size: 16px;
   font-weight: 600;
-  color: #222;
+      &:before {
+      content: "|";
+      font-weight: 400;
+      font-size: 12px;
+      margin: 0 10px;
+    }
+    &:after {
+      content: "|";
+      font-weight: 400;
+      font-size: 12px;
+      margin: 0 10px;
+    }
 `;
 const PanWrap = styled.div`
   position: absolute;
@@ -43,8 +43,8 @@ const PanWrap = styled.div`
   transform: translate(-50%, -50%);
 `;
 const Pan = styled.div`
-  width: 250px;
-  height: 250px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 5px solid #444;
   box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
@@ -55,8 +55,8 @@ const Egg = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 150px;
-  height: 150px;
+  width: 50px;
+  height: 50px;
   border-radius: 50% 40% 45% 55%;
   background-color: #fff;
   transform: translate(-50%, -50%);
@@ -67,8 +67,8 @@ const EggWhite = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 50px;
-  height: 50px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background-color: #f4cd00;
   transform: translate(-50%, -50%);
@@ -86,13 +86,13 @@ const EggYellow = styled.div`
 `;
 const Handle = styled.div`
   position: absolute;
-  bottom: 50px;
-  right: -117px;
-  width: 130px;
-  height: 25px;
+  bottom: 15px;
+  right: -32px;
+  width: 40px;
+  height: 12px;
   border: 2px solid #444;
   border-radius: 0 15px 15px 0;
-  transform: rotate(19deg);
+  transform: rotate(27deg);
   background-color: #222;
   box-shadow: 19px 20px 5px rgba(0, 0, 0, 0.5);
 `;
@@ -100,6 +100,7 @@ const Handle = styled.div`
 const Loading = () => {
   return (
     <LoadingWrap>
+      <LoadingTitle>Recipe Finder</LoadingTitle>
       <PanWrap>
         <Pan>
           <Egg>
@@ -109,8 +110,6 @@ const Loading = () => {
           </Egg>
         </Pan>
         <Handle></Handle>
-        <LoadingTitle>레시피 파인더</LoadingTitle>
-        <LoadingTxt>로딩중...</LoadingTxt>
       </PanWrap>
     </LoadingWrap>
   );
