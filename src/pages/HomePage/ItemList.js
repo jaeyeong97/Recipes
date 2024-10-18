@@ -23,6 +23,12 @@ const ImgWrap = styled.div`
   &:hover img {
     filter: brightness(0.7);
   }
+
+  @media (max-width: 500px) {
+    img {
+      height: 180px;
+    }
+  }
 `;
 const TxtWrap = styled.div`
   display: flex;

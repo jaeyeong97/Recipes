@@ -10,6 +10,7 @@ import RecommendedRecipe from "./RecommendedRecipe";
 import ItemList from "./ItemList";
 import ItemModal from "./ItemModal";
 import Pagination from "../../components/Pagination";
+import { useQuery } from "@tanstack/react-query";
 const speechAnimation = keyframes`
   0% {
     height: 0;
@@ -241,8 +242,23 @@ const SpeechBox = styled.div`
     line-height: 3em;
   }
 `;
+
+const fetchRecipes = async () => {
+  const url = `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/100/800`;
+  const res = await axios.get(url);
+  return res.data.COOKRCP01.row; // 레시피 데이터 반환
+};
+
 const Home = () => {
-  const [recipes, setRecipes] = useState(null); //레시피 데이터
+  const { data: recipes, isLoading } = useQuery({
+    queryKey: ['recipes'],
+    queryFn: fetchRecipes,
+    staleTime: 1000 * 60 * 60 * 24, // 데이터 변화 없으니 24시간동안 api불러오지말기
+    cacheTime: 24 * 60 * 60 * 1000, // 데이터 변화 없으니 24시간동안 캐시로
+    refetchOnMount: false, // 마운트시 api 재호출 안하기
+    refetchOnWindowFocus: false,
+  });
+
   const [recordBtn, setRecordBtn] = useState(false); //녹음 버튼
   const [recordHelper, setRecordHelper] = useState(true); // 음성인식 사용 유도 메세지
   const [recipeAlert, setRecipeAlert] = useState(true); // 음성인식 레시피 모달 알람
@@ -255,21 +271,6 @@ const Home = () => {
   const [showSearch, setShowSearch] = useState(false); // 헤더 검색 페이지
   const [favorite, setFavorite] = useState(false); // 헤더 즐겨찾기 
   const [favoriteArr, setFavoriteArr] = useState([]); // 즐겨찾기 배열
-
-  // 레시피 API 호출
-  useEffect(() => {
-    const getData = async () => {
-      const url = `https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/100/800`;
-      try {
-        const res = await axios.get(url);
-        const newRecipes = res.data.COOKRCP01.row; // 레시피 데이터
-        setRecipes(newRecipes);
-      } catch (error) {
-        console.error("API 호출 오류:", error.message);
-      }
-    };
-    getData();
-  }, []);
 
   // 헤더 검색아이콘 클릭
   const handleSearch = () => {
@@ -452,10 +453,7 @@ const Home = () => {
     return <p>음성인식이 지원되지 않는 브라우저입니다.</p>;
   }
 
-  // 로딩페이지
-  if (!recipes) {
-    return <Loading />;
-  }
+  if (isLoading) return <Loading />;
 
   return (
     <HomeWrap>
