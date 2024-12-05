@@ -152,7 +152,7 @@ const Favorite = ({ setShowSearch, setFavorite, handleFavoriteFunction, favorite
         <h3 className="s_title">즐겨찾기 한 레시피를 확인해보세요.</h3>
       </div>
       <div className="Favorite_in">
-        {favoriteArr.length > 0 ? (
+        {favoriteArr ? (
           favoriteArr.map(recipe => (
             <div key={recipe.RCP_SEQ}>
               <ItemListWrap>

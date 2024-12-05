@@ -43,24 +43,24 @@ const HeaderWrap = styled.header`
 `;
 const Header = ({ handleSearch, handleTitle, handleFavorite }) => {
 
-    return (
-        <HeaderWrap>
-            <nav className="gnb">
-                <div className="logo" onClick={handleTitle}>
-                    <div className="logo_img"></div>
-                    <h2 className="header_title">Recipe Finder</h2>
-                </div>
-                <div className="h_right">
-                    <span className="material-symbols-outlined" onClick={handleSearch}>
-                        search
-                    </span>
-                    <span className="material-symbols-outlined" onClick={handleFavorite}>
-                        favorite
-                    </span>
-                </div>
-            </nav>
-        </HeaderWrap>
-    );
+  return (
+    <HeaderWrap>
+      <nav className="gnb">
+        <div className="logo" onClick={handleTitle}>
+          <div className="logo_img"></div>
+          <h2 className="header_title">Recipe Finder</h2>
+        </div>
+        <div className="h_right">
+          <span className="material-symbols-outlined" onClick={handleSearch}>
+            search
+          </span>
+          <span className="material-symbols-outlined" onClick={handleFavorite}>
+            favorite
+          </span>
+        </div>
+      </nav>
+    </HeaderWrap>
+  );
 }
 
 export default Header;

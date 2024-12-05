@@ -18,7 +18,7 @@ const LoadingWrap = styled.div`
 `;
 const LoadingTitle = styled.div`
   position: absolute;
-  top: 40%;
+  top: calc(50% - 75px);
   left: 50%;
   transform : translate(-50%, -50%);
   font-size: 16px;
