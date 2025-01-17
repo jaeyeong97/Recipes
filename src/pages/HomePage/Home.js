@@ -244,7 +244,7 @@ const SpeechBox = styled.div`
 `;
 
 const fetchRecipes = async () => {
-  const response = await axios.get('https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/100/800');
+  const response = await axios.get('https://openapi.foodsafetykorea.go.kr/api/d94323bfaec344a59d3d/COOKRCP01/json/100/600');
   return response.data.COOKRCP01.row; // 레시피 데이터 반환
 };
 

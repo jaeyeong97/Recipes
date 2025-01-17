@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const FavoriteWrap = styled.div`
     position: fixed;
-    top: 0;
+    top: 50px;
     left: 0;
     width: 100%;
     height: 100%;

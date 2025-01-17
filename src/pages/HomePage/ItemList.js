@@ -17,7 +17,8 @@ const ImgWrap = styled.div`
   
   img {
     width: 100%;
-    height: 250px;
+    height: auto;
+    aspect-ratio : 1;
     object-fit:cover;
   }
   &:hover img {

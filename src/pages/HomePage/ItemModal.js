@@ -194,14 +194,12 @@ const Recipe = styled.section`
   }
   .box {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 80px;
-    @media (min-width: 768px) {
-      flex-direction: row;
-    }
     .img_wrap {
+      width: 40%;
       @media (min-width: 768px) {
-        width: 50%;
+        width: 30%;
       }
       img {
         width: 100%;
@@ -213,6 +211,7 @@ const Recipe = styled.section`
       display: flex;
       flex-direction: column;
       margin: 0 10px;
+      width: 60%;
       @media (min-width: 768px) {
         width: calc(50% + 20px);
         padding-left: 20px;

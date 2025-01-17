@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 const HeaderWrap = styled.header`
+position : fixed;
+top: 0;
+left: 0;
     width: 100%;
     padding: 30px 20px 25px 20px;
     user-select: none;
